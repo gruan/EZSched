@@ -1,0 +1,19 @@
+{
+  "name": "EZSched",
+  "version": "0.0.0",
+  "homepage": "https://github.com/gruan/EZSched",
+  "authors": [
+    "george <ruan3@illinois.edu>"
+  ],
+  "description": "411 DB Project",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}

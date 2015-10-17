@@ -10,19 +10,16 @@
   angular.module('EZSched')
     .controller('LoginCtrl', LoginCtrl);
 
-    LoginCtrl.$inject = ['$scope', '$location', '$timeout'];
+    LoginCtrl.$inject = ['$scope', '$location', '$timeout', '$http'];
 
-    function LoginCtrl ($scope, $location, $timeout) {
+    function LoginCtrl ($scope, $location, $timeout, $http) {
       $scope.username = "";
       $scope.password = "";
 
       function loginAttempt() {
-        console.log($scope.username);
         //TODO Add in db query
-        $timeout(function() {
-          $location.path('profile');
-        }, 300)
-      }
+
+        
 
       function register() {
         $timeout(function() {
@@ -47,7 +44,6 @@
         animating = true;
 
         current = $('#login > .profile');
-        console.log(current);
         current.animate({opacity: 0}, {
           step: function(now, mx) {
             scale = 1 - (1 - now) * 0.2;
