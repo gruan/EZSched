@@ -3,23 +3,14 @@
   box-sizing: border-box;
 }
 
-body {
-  position: relative;
-  margin: 0;
-  font-family: 'Work Sans', Arial, Helvetica, sans-serif;
-  min-height: 100%;
-  background: #80D8FF;
-  color: #777;
-}
-img {
+#login img {
   vertical-align: middle;
   max-width: 100%;
 }
-button {
-  cursor: pointer;
-  border: 0;
-  padding: 0;
-  background-color: transparent;
+
+#login {
+  color: #777;
+  font-family: 'Work Sans', Arial, Helvetica, sans-serif;
 }
 
 /* Container */
