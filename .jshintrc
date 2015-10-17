@@ -1,0 +1,15 @@
+{
+  "predef": ["angular", "_", "require", "console", "__dirname", "document",
+             "navigator", "window"],
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "freeze": true,
+  "indent": 2,
+  "maxparams": 4,
+  "newcap": true,
+  "quotmark": "single",
+  "strict": true,
+  "unused": "strict",
+  "undef": true
+}

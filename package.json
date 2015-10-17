@@ -1,0 +1,10 @@
+{
+  "name"          : "georgeRuan",
+  "version"       : "0.0.0",
+  "description"   : "Personal Website",
+  "main"          : "server.js",
+  "author"        : "George Ruan",
+  "dependencies"  : {
+    "express"         : "~4.7.2"
+  }
+}
