@@ -10,9 +10,25 @@
   angular.module('EZSched')
     .controller('LoginCtrl', LoginCtrl);
 
-    //homeCtrl.$inject = ['$scope', '$interval', 'UserData'];
+    LoginCtrl.$inject = ['$scope', '$location'];
 
-    function LoginCtrl () {
+    function LoginCtrl ($scope, $location) {
+      $scope.username = "";
+      $scope.password = "";
+
+      function loginAttempt() {
+        console.log($scope.username);
+        //TODO Add in db query
+        $location.path('profile');
+      }
+
+      function register() {
+        $location.path('register');
+      }
+
+      $scope.loginAttempt = loginAttempt;
+      $scope.register = register;
+
       document.getElementById('toggleProfile').addEventListener('click', function() {
         [].map.call(document.querySelectorAll('.profile'), function(el) {
           el.classList.toggle('profile--open');

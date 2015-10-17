@@ -1,21 +1,21 @@
 <div class="container" id="login">
   <div class="profile">
     <button class="profile__avatar" id="toggleProfile">
-     <img src="https://pbs.twimg.com/profile_images/554631714970955776/uzPxPPtr.jpeg" alt="Avatar" />
+     <img src="../images/Logo_Gray.png" alt="Avatar" />
     </button>
     <div class="profile__form">
       <div class="profile__fields">
         <div class="field">
-          <input type="text" id="fieldUser" class="input" required pattern=.*\S.* />
+          <input ng-model="username" type="text" id="fieldUser" class="input" required pattern=.*\S.* />
           <label for="fieldUser" class="label">Username</label>
         </div>
         <div class="field">
-          <input type="password" id="fieldPassword" class="input" required pattern=.*\S.* />
+          <input ng-model="password" type="password" id="fieldPassword" class="input" required pattern=.*\S.* />
           <label for="fieldPassword" class="label">Password</label>
         </div>
         <div class="profile__footer">
-          <button class="btn-login">Login</button>
-          <button class="btn-login right-btn">Register</button>
+          <button class="btn-login" ng-click="loginAttempt()">Login</button>
+          <button class="btn-login right-btn" ng-click="register()">Register</button>
         </div>
       </div>
      </div>
