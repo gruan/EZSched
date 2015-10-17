@@ -12,6 +12,9 @@
 
     LoginCtrl.$inject = ['$scope', '$location', '$timeout', 'ezSQL'];
 
+    // TODO Create a fade modal function and have it called in loginAttempt after
+    // passing validation
+
     function LoginCtrl ($scope, $location, $timeout, ezSQL) {
       $scope.username = "";
       $scope.password = "";
@@ -27,9 +30,9 @@
         */
 
 
-        var attrArr = ['UID', 'Password'];
-        var table = ['Test'];
-        var condition = 'UID=\'' + $scope.username + '\'+AND+Password=\''+ $scope.password + '\''
+        var attrArr = ['UserID', 'UserPassword'];
+        var table = ['Person'];
+        var condition = 'UserID=\'' + $scope.username + '\'+AND+UserPassword=\''+ $scope.password + '\'';
         ezSQL.getQuery(attrArr, table, condition).then(function(result) {
           console.log(result);
           if(result.length !== 0) { // Succeeded log in

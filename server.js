@@ -10,7 +10,7 @@
     host     : 'ezsched411.web.engr.illinois.edu',
     user     : 'ezsched4_admin',
     password : 'password12345',
-    database : 'ezsched4_glorious_leader'
+    database : 'ezsched4_db'
   });
 
   app.use(express.static('app'));
@@ -25,7 +25,7 @@
 
   /* ===== SQL QUERIES ===== */
 
-  app.get("/insertQuery", function(req, res) {
+  app.post("/insertQuery", function(req, res) {
     var queryData = url.parse(req.url, true).query;
     console.log(queryData);
     connection.query(queryData.query, function(error){ // To specify query do http.get(?query=<Full query goes here>)

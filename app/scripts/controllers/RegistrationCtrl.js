@@ -10,9 +10,9 @@
   angular.module('EZSched')
     .controller('RegistrationCtrl', RegistrationCtrl);
 
-    RegistrationCtrl.$inject = ['$scope', '$location', '$timeout'];
+    RegistrationCtrl.$inject = ['$scope', '$location', '$timeout', '$q', 'ezSQL'];
 
-    function RegistrationCtrl ($scope, $location, $timeout) {
+    function RegistrationCtrl ($scope, $location, $timeout, $q, ezSQL) {
       $scope.username = "";
       $scope.password = "";
       $scope.cPassword = "";
@@ -25,12 +25,62 @@
       $scope.interest2 = "";
       $scope.interest3 = "";
 
+      // TODO Add transitionModalNext and transitionModalPrev that transitions between
+      // fieldsets upon passing validation.
+
+/*
+      var table = 'Interest'
+      var attrArr = ['Interest'];
+      var valueArr = ['3'];
+      ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+        console.log(success);
+      });
+*/
+
       function submitRegistration() {
-        //TODO Add in db query
+        var queries = [];
+
+        var table = 'Person'
+        var attrArr = ['UserID', 'FirstName', 'LastName', 'UserPassword'];
+        var valueArr = [$scope.username, $scope.firstName, $scope.lastName, $scope.password];
+        queries.push(ezSQL.insertQuery(table, attrArr, valueArr));
+
+        table = 'Interest';
+        attrArr = ['Interest'];
+        valueArr = [$scope.interest1];
+        queries.push(ezSQL.insertQuery(table, attrArr, valueArr));
+        valueArr = [$scope.interest2];
+        queries.push(ezSQL.insertQuery(table, attrArr, valueArr));
+
+        /*valueArr = [$scope.interest3];
+        queries.push(ezSQL.insertQuery(table, attrArr, valueArr));*/
+
+        $q.all(queries).then(function(success) {
+          console.log(success);
+          table = 'Looks';
+          attrArr = ['UserID', 'Interest'];
+          valueArr = [$scope.username, $scope.interest1];
+          ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+            console.log('1');
+            console.log(success);
+          });
+          valueArr = [$scope.username, $scope.interest2];
+          ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+            console.log('2');
+            console.log(success);
+          });
+          /*
+          console.log($scope.interest3);
+          valueArr = [$scope.username, $scope.interest3];
+          ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+            console.log('3');
+            console.log(success);
+          });*/
+        })
+
         $timeout(function() {
           $location.path('profile');
         }, 300)
-
       }
 
       $scope.submitRegistration = submitRegistration;
