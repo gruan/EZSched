@@ -145,6 +145,9 @@ input:valid + .label {
   background: #30B4EF;
 }
 
+.right-btn {
+  float: right;
+}
 
 /* Intro animation */
 @keyframes intro {
