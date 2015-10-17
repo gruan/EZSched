@@ -3,7 +3,7 @@
   box-sizing: border-box;
 }
 
-#login img {
+.container img {
   vertical-align: middle;
   max-width: 100%;
 }
@@ -92,6 +92,7 @@
 }
 .label {
   position: absolute;
+  left: 0;
   height: 2rem;
   line-height: 2rem;
   bottom: 0;

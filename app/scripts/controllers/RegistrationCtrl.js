@@ -10,13 +10,30 @@
   angular.module('EZSched')
     .controller('RegistrationCtrl', RegistrationCtrl);
 
-    RegistrationCtrl.$inject = ['$scope', '$location'];
+    RegistrationCtrl.$inject = ['$scope', '$location', '$timeout'];
 
-    function RegistrationCtrl ($scope, $location) {
+    function RegistrationCtrl ($scope, $location, $timeout) {
+      $scope.username = "";
+      $scope.password = "";
+      $scope.cPassword = "";
 
-      [].map.call(document.querySelectorAll('.profile'), function(el) {
-        el.classList.toggle('profile--open');
-      });
+      $scope.firstName = "";
+      $scope.lastName = "";
+      $scope.email = "";
+
+      $scope.interest1 = "";
+      $scope.interest2 = "";
+      $scope.interest3 = "";
+
+      function submitRegistration() {
+        //TODO Add in db query
+        $timeout(function() {
+          $location.path('profile');
+        }, 300)
+
+      }
+
+      $scope.submitRegistration = submitRegistration;
 
       //jQuery time
       var current_fs, next_fs, previous_fs; //fieldsets
@@ -27,11 +44,8 @@
       	if(animating) return false;
       	animating = true;
 
-      	current_fs = $(this).parent();
-      	next_fs = $(this).parent().next();
-
-      	//activate next step on progressbar using the index of next_fs
-      	$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+      	current_fs = $(this).closest("fieldset");
+      	next_fs = $(this).closest("fieldset").next();
 
       	//show the next fieldset
       	next_fs.show();
@@ -41,14 +55,12 @@
       			//as the opacity of current_fs reduces to 0 - stored in "now"
       			//1. scale current_fs down to 80%
       			scale = 1 - (1 - now) * 0.2;
-      			//2. bring next_fs from the right(50%)
-      			left = (now * 50)+"%";
       			//3. increase opacity of next_fs to 1 as it moves in
       			opacity = 1 - now;
       			current_fs.css({'transform': 'scale('+scale+')'});
-      			next_fs.css({'left': left, 'opacity': opacity});
+      			next_fs.css({'opacity': opacity});
       		},
-      		duration: 800,
+      		duration: 600,
       		complete: function(){
       			current_fs.hide();
       			animating = false;
@@ -62,11 +74,11 @@
       	if(animating) return false;
       	animating = true;
 
-      	current_fs = $(this).parent();
-      	previous_fs = $(this).parent().prev();
+      	current_fs = $(this).closest("fieldset");
+      	previous_fs = $(this).closest("fieldset").prev();
 
       	//de-activate current step on progressbar
-      	$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+      	//$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
 
       	//show the previous fieldset
       	previous_fs.show();
@@ -76,14 +88,11 @@
       			//as the opacity of current_fs reduces to 0 - stored in "now"
       			//1. scale previous_fs from 80% to 100%
       			scale = 0.8 + (1 - now) * 0.2;
-      			//2. take current_fs to the right(50%) - from 0%
-      			left = ((1-now) * 50)+"%";
       			//3. increase opacity of previous_fs to 1 as it moves in
       			opacity = 1 - now;
-      			current_fs.css({'left': left});
       			previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
       		},
-      		duration: 800,
+      		duration: 600,
       		complete: function(){
       			current_fs.hide();
       			animating = false;
@@ -92,11 +101,5 @@
       		easing: 'easeInOutBack'
       	});
       });
-
-      $(".submit").click(function(){
-      	return false;
-      })
-
-
     }
 })();

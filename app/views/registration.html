@@ -1,50 +1,94 @@
 <!-- multistep form -->
-<form id="msform">
+<form id="msform" novalidate>
 	<!-- progressbar -->
-	<ul id="progressbar">
+	<!--<ul id="progressbar">
 		<li class="active">Account Setup</li>
 		<li>Social Profiles</li>
 		<li>Personal Details</li>
-	</ul>
+	</ul>-->
 	<!-- fieldsets -->
-	<fieldset>
-		<!--<h2 class="fs-title">Create your account</h2>
-		<h3 class="fs-subtitle">This is step 1</h3>-->
-
-    <div class="profile--open">
-      <div class="profile__form ">
-        <div class="profile__fields">
-          <div class="field">
-            <input ng-model="username" type="text" id="registerUser" class="input" required pattern=.*\S.* />
-            <label for="registerUser" class="label">Username</label>
+  <fieldset>
+    <div class="container">
+      <div class="profile--open">
+        <div class="profile__avatar">
+          <img src="../images/Logo_Gray.png" alt="Avatar" />
+        </div>
+        <div class="profile__form ">
+          <div class="profile__fields">
+            <div class="field">
+              <input ng-model="username" type="text" id="registerUser" class="input" required pattern=.*\S.* />
+              <label for="registerUser" class="label">Username</label>
+            </div>
+            <div class="field">
+              <input ng-model="password" type="text" id="registerPass" class="input" required pattern=.*\S.* />
+              <label for="registerPass" class="label">Password</label>
+            </div>
+            <div class="field">
+              <input ng-model="cPassword" type="text" id="registerCPass" class="input" required pattern=.*\S.* />
+              <label for="registerCPass" class="label">Confirm Password</label>
+            </div>
+            <div class="profile__footer">
+              <button name="next" class="btn-login center next">Continue</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-
-		<!--<input type="text" name="email" placeholder="Email" class="input"/>-->
-		<input type="password" name="pass" placeholder="Password" />
-		<input type="password" name="cpass" placeholder="Confirm Password" />
-		<input type="button" name="next" class="next action-button" value="Next" />
 	</fieldset>
+  <fieldset>
+    <div class="container">
+      <div class="profile--open">
+        <div class="profile__avatar">
+          <img src="../images/Logo_Gray.png" alt="Avatar" />
+        </div>
+        <div class="profile__form ">
+          <div class="profile__fields">
+            <div class="field">
+              <input ng-model="firstName" type="text" id="registerFirstName" class="input" required pattern=.*\S.* />
+              <label for="registerFirstName" class="label">First Name</label>
+            </div>
+            <div class="field">
+              <input ng-model="lastName" type="text" id="registerLastName" class="input" required pattern=.*\S.* />
+              <label for="registerLastName" class="label">Last Name</label>
+            </div>
+            <div class="field">
+              <input ng-model="email" type="text" id="registerEmail" class="input" required pattern=.*\S.* />
+              <label for="registerEmail" class="label">E-mail</label>
+            </div>
+            <div class="profile__footer">
+              <button name="previous" class="btn-login left previous " value="Previous">Back</button>
+              <button name="next" class="btn-login right next">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </fieldset>
 	<fieldset>
-		<h2 class="fs-title">Social Profiles</h2>
-		<h3 class="fs-subtitle">Your presence on the social network</h3>
-		<input type="text" name="twitter" placeholder="Twitter" />
-		<input type="text" name="facebook" placeholder="Facebook" />
-		<input type="text" name="gplus" placeholder="Google Plus" />
-		<input type="button" name="previous" class="previous action-button" value="Previous" />
-		<input type="button" name="next" class="next action-button" value="Next" />
+    <div class="container">
+      <div class="profile--open">
+        <div class="profile__avatar">
+          <img src="../images/Logo_Gray.png" alt="Avatar" />
+        </div>
+        <div class="profile__form ">
+          <div class="profile__fields">
+            <div class="field">
+              <input ng-model="interest1" type="text" id="registerInterest1" class="input" required pattern=.*\S.* />
+              <label for="registerInterest1" class="label">Interest 1</label>
+            </div>
+            <div class="field">
+              <input ng-model="interest2" type="password" id="registerInterest2" class="input" required pattern=.*\S.* />
+              <label for="registerInterest2" class="label">Interest 2</label>
+            </div>
+            <div class="field">
+              <input ng-model="interest3" type="password" id="registerInterest3" class="input" required pattern=.*\S.* />
+              <label for="registerInterest3" class="label">Interest 3</label>
+            </div>
+            <div class="profile__footer">
+              <button name="previous" class="btn-login left previous " value="Previous">Back</button>
+              <button name="next" class="btn-login right next" value="Next" ng-click="submitRegistration()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
 	</fieldset>
-	<fieldset>
-		<h2 class="fs-title">Personal Details</h2>
-		<h3 class="fs-subtitle">We will never sell it</h3>
-		<input type="text" name="fname" placeholder="First Name" />
-		<input type="text" name="lname" placeholder="Last Name" />
-		<input type="text" name="phone" placeholder="Phone" />
-		<textarea name="address" placeholder="Address"></textarea>
-		<input type="button" name="previous" class="previous action-button" value="Previous" />
-		<input type="submit" name="submit" class="submit action-button" value="Submit" />
-	</fieldset>
+</div>
 </form>
