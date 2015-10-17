@@ -8,8 +8,8 @@
 
   var connection = mysql.createConnection({
     host     : 'ezsched411.web.engr.illinois.edu',
-    user     : 'ezsched4_sjzhang',
-    password : 'Geminio0424',
+    user     : 'ezsched4_admin',
+    password : 'password12345',
     database : 'ezsched4_glorious_leader'
   });
 
@@ -33,6 +33,16 @@
       if (error) throw error;
 
       //console.log(rows[0]);
+    });
+  });
+
+  app.get("/getQuery", function(req, res) {
+    var queryData = url.parse(req.url, true).query;
+    console.log(queryData);
+    connection.query(queryData.query, function(error, rows, fields) {
+      if (error) throw error;
+      console.log(rows);
+      res.send(rows);
     });
   });
 

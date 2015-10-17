@@ -9,30 +9,87 @@
   angular.module('EZSched')
     .factory('ezSQL', ezSQL);
 
-  ezSQL.$inject = ['$http'];
+  ezSQL.$inject = ['$http', '$q'];
 
-  function ezSQL($http) {
-    var ezSQL;
-    command = "INSERT+INTO",
-        table = "Test"
+  function ezSQL($http, $q) {
+    var ezSQLObj = {};
 
-    $http({
-      method: 'GET',
-      //url: '/insertQuery?query=INSERT+INTO+Test+VALUES(' + $scope.username + ',' + $scope.password + ');'
-      url:"/insertQuery?query=INSERT+INTO+Test(UID,Password)+VALUES('" + $scope.username + "','" + $scope.password + "')"
-    }).then(function successCallback(response) {
-      console.log("yay!");
-      $timeout(function() {
-        $location.path('profile');
-      }, 300)
-      // this callback will be called asynchronously
-      // when the response is available
-    }, function errorCallback(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-    });
-  }
+    // table should not be in array format
+    function insertQuery(table, attrArr, valueArr) {
+      var query_path = '/insertQuery';
+      var attrStr = '(';
+      for(var i = 0; i < attrArr.length; ++i) {
+        attrStr += attrArr[i];
+        if(i < attrArr.length - 1) {
+          attrStr += ',';
+        }
+      }
+      attrStr += ')';
 
-    return ezSQL;
+      var valueStr = '(';
+      for(var i = 0; i < valueArr.length; ++i) {
+        valueStr = valueStr + '\'' + valueArr[i] + '\'';
+        if(i < valueArr.length - 1) {
+          valueStr += ',';
+        }
+      }
+      valueStr += ')';
+
+      var query = query_path + '?query=INSERT+INTO+' + table + attrStr + '+VALUES' + valueStr;
+
+      return $q.all[(
+        $http({
+          method: 'GET',
+          //url: '/insertQuery?query=INSERT+INTO+Test+VALUES(' + $scope.username + ',' + $scope.password + ');'
+          url: query
+        }).then(function successCallback(response) {
+          // this callback will be called asynchronously
+          // when the response is available
+        }, function errorCallback(response) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+        })
+      )];
+    }
+
+    // attrArr and tableArr should be Arrays
+    // Condition string. Spaces need to be replaced with +
+    function getQuery(attrArr, tableArr, condition) {
+      var query_path = '/getQuery';
+      var attrStr = "";
+      for(var i = 0; i < attrArr.length; ++i) {
+        attrStr += attrArr[i];
+        if(i < attrArr.length - 1) {
+          attrStr += ',';
+        }
+      }
+
+      var tableStr = "";
+      for(var i = 0; i < tableArr.length; ++i) {
+        tableStr += tableArr[i];
+        if(i < tableArr.length - 1) {
+          tableStr += ',';
+        }
+      }
+
+      var query = query_path + '?query=SELECT+' + attrStr +
+                  '+FROM+' + tableStr + '+WHERE+' + condition;
+
+      return $http({ method: 'GET',
+              url: query
+            }).then(function successCallback(response) {
+                 return $q(function(resolve){
+                   resolve(response.data);
+                 });
+            }, function errorCallback(response) {
+              console.log('error');
+              return $q.reject(undefined);
+            });
+    }
+
+    ezSQLObj.insertQuery = insertQuery;
+    ezSQLObj.getQuery = getQuery;
+
+    return ezSQLObj;
   }
 })();

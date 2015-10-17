@@ -10,22 +10,50 @@
   angular.module('EZSched')
     .controller('LoginCtrl', LoginCtrl);
 
-    LoginCtrl.$inject = ['$scope', '$location', '$timeout', '$http'];
+    LoginCtrl.$inject = ['$scope', '$location', '$timeout', 'ezSQL'];
 
-    function LoginCtrl ($scope, $location, $timeout, $http) {
+    function LoginCtrl ($scope, $location, $timeout, ezSQL) {
       $scope.username = "";
       $scope.password = "";
 
       function loginAttempt() {
-        //TODO Add in db query
+        //TODO FIX CLICK EVENT HANDLER ACTIVATING ON FAILED login
 
-        
+        /*
+        var attrArr = ['UID', 'Password'];
+        var valueArr = [$scope.username, $scope.password];
+        var table = 'Test';
+        ezSQL.insertQuery(table, attrArr, valueArr);
+        */
+
+
+        var attrArr = ['UID', 'Password'];
+        var table = ['Test'];
+        var condition = 'UID=\'' + $scope.username + '\'+AND+Password=\''+ $scope.password + '\''
+        ezSQL.getQuery(attrArr, table, condition).then(function(result) {
+          console.log(result);
+          if(result.length !== 0) { // Succeeded log in
+            console.log('Succeed Login');
+            $timeout(function() {
+              $location.path('profile');
+            }, 300)
+          }
+          else { // Failed to log in
+            console.log('Failed Login');
+            return;
+          }
+        }, function(error) {
+          console.log(error);
+        });
+
+      }
+
 
       function register() {
         $timeout(function() {
           $location.path('register');
         }, 300)
-      }
+      };
 
       $scope.loginAttempt = loginAttempt;
       $scope.register = register;
