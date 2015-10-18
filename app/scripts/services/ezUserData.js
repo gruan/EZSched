@@ -12,8 +12,6 @@
   ezUserData.$inject = ['$q', 'ezSQL'];
 
   function ezUserData($q, ezSQL) {
-    var ezUserDataObj = {};
-
     var userName = 'admin';
 
     var interests = [];

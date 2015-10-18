@@ -32,10 +32,6 @@
     </div>
   </div>
 
-
-
-
-
   <!-- COURSES -->
   <div class="row" class="row">
     <div class="col-sm-12 text-center small-margin-top">
@@ -65,9 +61,27 @@
   </div>
 
   <!-- EVENTS -->
-  <div class="row" class="row">
+  <div class="row">
     <div class="col-sm-12 text-center small-margin-top">
       <h2 class=""><strong>Upcoming Events</strong></h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 text-center very-small-margin-top">
+      <button class="btn-login" ng-click="generateEvents()">Generate Schedule</button>
+    </div>
+    <div class="col-sm-12 text-center event-container">
+      <div class="row" ng-repeat="event in events">
+        <div class="col-sm-3 col-sm-offset-1 text-left">
+          <h2>{{event.eventTime}}</h2>
+        </div>
+        <div class="col-sm-5 text-left">
+          <h2>{{event.eventName}}</h2>
+        </div>
+        <div class="col-sm-3">
+          <h2><a ng-href="{{event.eventLink}}" target="_blank">Link</a></h2>
+        </div>
+      </div>
     </div>
   </div>
 </div>

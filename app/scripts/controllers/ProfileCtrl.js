@@ -10,14 +10,15 @@
   angular.module('EZSched')
     .controller('ProfileCtrl', ProfileCtrl);
 
-    ProfileCtrl.$inject = ['$scope', '$q', 'ezUserData', 'ezSQL'];
+    ProfileCtrl.$inject = ['$scope', '$q', 'ezUserData', 'ezSQL', 'ezScheduleGenerator'];
 
 
-    function ProfileCtrl ($scope, $q, ezUserData, ezSQL) {
+    function ProfileCtrl ($scope, $q, ezUserData, ezSQL, ezScheduleGenerator) {
       $scope.userName = ''
       $scope.firstName = '';
       $scope.interests = [];
       $scope.courses = [];
+      $scope.events = [];
 
       $scope.formData = {
         //interest:
@@ -95,10 +96,17 @@
         });
       }
 
+      function generateEvents() {
+        ezScheduleGenerator.generateEvents().then(function(eventsArr) {
+          $scope.events = eventsArr;
+        });
+      }
+
       $scope.deleteInterest = deleteInterest;
       $scope.addInterest = addInterest;
       $scope.deleteCourse = deleteCourse;
       $scope.addCourse = addCourse;
+      $scope.generateEvents = generateEvents;
     }
 
 })();
