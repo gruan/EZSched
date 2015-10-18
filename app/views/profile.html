@@ -1,7 +1,7 @@
 <div id="profile">
   <!-- TITLE -->
   <div class="jumbotron text-center">
-    <h1>{{firstName}}</h1>
+    <h1>{{alias}}</h1>
   </div>
 
   <!-- INTERESTS -->
@@ -33,36 +33,38 @@
   </div>
 
   <!-- COURSES -->
-  <div class="row" class="row">
-    <div class="col-sm-12 text-center small-margin-top">
-      <h2 class=""><strong>Courses</strong></h2>
+  <div id="courses" ng-if="userType=='user'">
+    <div class="row" class="row">
+      <div class="col-sm-12 text-center medium-margin-top">
+        <h2 class=""><strong>Courses</strong></h2>
+      </div>
     </div>
-  </div>
-  <div class="row" ng-repeat="course in courses">
-    <div class="col-sm-8 col-sm-offset-2 text-center">
-      <h2>{{course.CourseID}}</h2>
+    <div class="row" ng-repeat="course in courses">
+      <div class="col-sm-8 col-sm-offset-2 text-center">
+        <h2>{{course.CourseID}}</h2>
+      </div>
+      <div class="col-sm-2">
+        <button type="button" class="btn-login btn-delete btn-vertical-middle" ng-click="deleteCourse(course)">Delete</button>
+      </div>
     </div>
-    <div class="col-sm-2">
-      <button type="button" class="btn-login btn-delete btn-vertical-middle" ng-click="deleteCourse(course)">Delete</button>
-    </div>
-  </div>
 
   <!-- FORM TO CREATE COURSES -->
-  <div id="class-form" class="row">
-    <div class="col-sm-8 col-sm-offset-2 text-center">
-      <form>
-        <div class="form-group">
-          <input type="text" class="form-control input-lg text-center" placeholder="Another Course..." ng-model="formData.course">
-        </div>
+    <div id="class-form" class="row">
+      <div class="col-sm-8 col-sm-offset-2 text-center">
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control input-lg text-center" placeholder="Another Course..." ng-model="formData.course">
+          </div>
 
-        <button type="submit" class="btn-login" ng-click="addCourse()">Add Course</button>
-      </form>
+          <button type="submit" class="btn-login" ng-click="addCourse()">Add Course</button>
+        </form>
+      </div>
     </div>
   </div>
 
   <!-- EVENTS -->
   <div class="row">
-    <div class="col-sm-12 text-center small-margin-top">
+    <div class="col-sm-12 text-center medium-margin-top">
       <h2 class=""><strong>Upcoming Events</strong></h2>
     </div>
   </div>

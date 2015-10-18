@@ -13,72 +13,76 @@
     RegistrationCtrl.$inject = ['$scope', '$location', '$timeout', '$q', 'ezSQL', 'ezUserData'];
 
     function RegistrationCtrl ($scope, $location, $timeout, $q, ezSQL, ezUserData) {
-      $scope.username = "";
-      $scope.password = "";
-      $scope.cPassword = "";
+      $scope.input = {
+        username: '',
+        password: '',
+        cPassword: '',
 
-      $scope.firstName = "";
-      $scope.lastName = "";
-      $scope.email = "";
+        interest1: '',
+        interest2: '',
+        userType: '',
 
-      $scope.interest1 = "";
-      $scope.interest2 = "";
-      $scope.interest3 = "";
+        email: '',
+        // Group
+        groupName: '',
+        affiliation:'',
+        // User
+        firstName: '',
+        lastName: '',
+      }
 
       // TODO Add transitionModalNext and transitionModalPrev that transitions between
       // fieldsets upon passing validation.
 
-/*
-      var table = 'Interest'
-      var attrArr = ['Interest'];
-      var valueArr = ['3'];
-      ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
-        console.log(success);
-      });
-*/
-
       function submitRegistration() {
-        var queries = [];
+        var table, attrArr, valueArr;
 
-        var table = 'Person'
-        var attrArr = ['UserID', 'FirstName', 'LastName', 'UserPassword'];
-        var valueArr = [$scope.username, $scope.firstName, $scope.lastName, $scope.password];
-        queries.push(ezSQL.insertQuery(table, attrArr, valueArr));
+        // User Specific Registration
+        if($scope.input.userType=='user') {
+          table = 'Person'
+          attrArr = ['UserID', 'FirstName', 'LastName', 'UserPassword'];
+          console.log('First %s Last %s', $scope.input.firstName, $scope.input.lastName);
+          valueArr = [$scope.input.username, $scope.input.firstName, $scope.input.lastName, $scope.input.password];
+          ezSQL.insertQuery(table, attrArr, valueArr);
+        }
+        else { // Group Specific Registration
+          table = 'Organization'
+          attrArr = ['GroupID', 'GroupName', 'GroupPassword'];
+          valueArr = [$scope.input.username, $scope.input.groupName, $scope.input.password];
+          ezSQL.insertQuery(table, attrArr, valueArr);
+        }
 
+        // General Registration
         table = 'Interest';
         attrArr = ['Interest'];
-        valueArr = [$scope.interest1];
-        queries.push(ezSQL.insertQuery(table, attrArr, valueArr));
-        valueArr = [$scope.interest2];
-        queries.push(ezSQL.insertQuery(table, attrArr, valueArr));
+        valueArr = [$scope.input.interest1];
+        ezSQL.insertQuery(table, attrArr, valueArr);
+        valueArr = [$scope.input.interest2];
+        ezSQL.insertQuery(table, attrArr, valueArr);
 
-        /*valueArr = [$scope.interest3];
-        queries.push(ezSQL.insertQuery(table, attrArr, valueArr));*/
-
-        $q.all(queries).then(function(success) {
-          console.log(success);
+        // User Specific Registration
+        if($scope.input.userType == 'user') {
           table = 'Looks';
           attrArr = ['UserID', 'Interest'];
-          valueArr = [$scope.username, $scope.interest1];
-          ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
-            console.log('1');
-            console.log(success);
-          });
-          valueArr = [$scope.username, $scope.interest2];
-          ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
-            console.log('2');
-            console.log(success);
-          });
-          /*
-          console.log($scope.interest3);
-          valueArr = [$scope.username, $scope.interest3];
-          ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
-            console.log('3');
-            console.log(success);
-          });*/
-        })
+        }
+        else { // Group Specific Registration
+          table = 'Relates';
+          attrArr = ['GroupID', 'Interest'];
+        }
+        valueArr = [$scope.input.username, $scope.input.interest1];
+        ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+          console.log('1');
+          console.log(success);
+        });
+        valueArr = [$scope.input.username, $scope.input.interest2];
+        ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+          console.log('2');
+          console.log(success);
+        });
 
-        ezUserData.setUserName($scope.username);
+
+        ezUserData.setUserName($scope.input.username);
+        ezUserData.setUserType($scope.input.userType);
         $timeout(function() {
           $location.path('profile');
         }, 300)

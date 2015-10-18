@@ -15,10 +15,12 @@
 
     function ProfileCtrl ($scope, $q, ezUserData, ezSQL, ezScheduleGenerator) {
       $scope.userName = ''
-      $scope.firstName = '';
+      $scope.alias = '';
+      $scope.userType = '';
       $scope.interests = [];
       $scope.courses = [];
-      $scope.events = [];
+      $scope.events = []; // Delete after this is hardcoded
+      $scope.groupEvents = [];
 
       $scope.formData = {
         //interest:
@@ -26,17 +28,31 @@
       }
 
       // ===== INITIALIZE ======
-      ezUserData.getFirstName().then(function(name) {
-        $scope.firstName = name;
-      });
-      ezUserData.getInterests().then(function(interests) {
-        $scope.interests = interests;
-      });
-      ezUserData.getUserName().then(function(name) {
-        $scope.userName = name;
-      })
-      ezUserData.getCourses().then(function(courses) {
-        $scope.courses = courses;
+      ezUserData.getUserType().then(function(storedType) {
+        $scope.userType = storedType;
+
+        ezUserData.getUserName().then(function(name) {
+          $scope.userName = name;
+        })
+
+        ezUserData.getAlias().then(function(name) {
+          $scope.alias = name;
+        });
+
+        ezUserData.getInterests().then(function(interests) {
+          $scope.interests = interests;
+        });
+
+        if($scope.userType == 'user') {
+          ezUserData.getCourses().then(function(courses) {
+            $scope.courses = courses;
+          });
+        }
+        else {  // Group
+          ezUserData.getEvents().then(function(events) {
+            $scope.groupEvents = events;
+          });
+        }
       })
 
       // ====== SCOPE FUNCTIONS ======

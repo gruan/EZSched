@@ -6,6 +6,7 @@
   "author": "George Ruan",
   "dependencies": {
     "express": "~4.7.2",
-    "mysql": "^2.9.0"
+    "mysql": "^2.9.0",
+    "simplecrawler": "^0.5.4"
   }
 }

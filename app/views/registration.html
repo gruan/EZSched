@@ -16,15 +16,15 @@
         <div class="profile__form ">
           <div class="profile__fields">
             <div class="field">
-              <input ng-model="username" type="text" id="registerUser" class="input" required pattern=.*\S.* />
+              <input ng-model="input.username" type="text" id="registerUser" class="input" required pattern=.*\S.* />
               <label for="registerUser" class="label">Username</label>
             </div>
             <div class="field">
-              <input ng-model="password" type="password" id="registerPass" class="input" required pattern=.*\S.* />
+              <input ng-model="input.password" type="password" id="registerPass" class="input" required pattern=.*\S.* />
               <label for="registerPass" class="label">Password</label>
             </div>
             <div class="field">
-              <input ng-model="cPassword" type="password" id="registerCPass" class="input" required pattern=.*\S.* />
+              <input ng-model="input.cPassword" type="password" id="registerCPass" class="input" required pattern=.*\S.* />
               <label for="registerCPass" class="label">Confirm Password</label>
             </div>
             <div class="profile__footer">
@@ -43,16 +43,19 @@
         <div class="profile__form ">
           <div class="profile__fields">
             <div class="field">
-              <input ng-model="firstName" type="text" id="registerFirstName" class="input" required pattern=.*\S.* />
-              <label for="registerFirstName" class="label">First Name</label>
+              <input ng-model="input.interest1" type="text" id="registerInterest1" class="input" required pattern=.*\S.* />
+              <label for="registerInterest1" class="label">Interest 1</label>
             </div>
             <div class="field">
-              <input ng-model="lastName" type="text" id="registerLastName" class="input" required pattern=.*\S.* />
-              <label for="registerLastName" class="label">Last Name</label>
+              <input ng-model="input.interest2" type="text" id="registerInterest2" class="input" required pattern=.*\S.* />
+              <label for="registerInterest2" class="label">Interest 2</label>
             </div>
             <div class="field">
-              <input ng-model="email" type="text" id="registerEmail" class="input" required pattern=.*\S.* />
-              <label for="registerEmail" class="label">E-mail</label>
+              <select ng-model="input.userType" id="registerUserType" class="input">
+                <option value="" disabled selected>Select Account Type...</option>
+                <option value="user">User</option>
+                <option value="group">Group</option>
+              </select>
             </div>
             <div class="profile__footer">
               <button name="previous" class="btn-login left previous " value="Previous">Back</button>
@@ -70,20 +73,33 @@
         </div>
         <div class="profile__form ">
           <div class="profile__fields">
-            <div class="field">
-              <input ng-model="interest1" type="text" id="registerInterest1" class="input" required pattern=.*\S.* />
-              <label for="registerInterest1" class="label">Interest 1</label>
+            <!-- GROUP SPECIFIC -->
+            <div ng-if="input.userType=='group'">
+              <div class="field">
+                <input ng-model="input.groupName" type="text" id="registerGroupName" class="input" required pattern=.*\S.* />
+                <label for="registerGroupName" class="label">Group Name</label>
+              </div>
+              <div class="field">
+                <input ng-model="input.affiliation" type="text" id="registerAffiliation" class="input" required patter=.*\S.* />
+                <label for="registerAffiliation" class="label">Affiliation</label>
+              </div>
             </div>
-            <div class="field">
-              <input ng-model="interest2" type="text" id="registerInterest2" class="input" required pattern=.*\S.* />
-              <label for="registerInterest2" class="label">Interest 2</label>
+            <!-- USER SPECIFIC -->
+            <div ng-if="input.userType=='user'">
+              <div class="field">
+                <input ng-model="input.firstName" type="text" id="registerFirstName" class="input" required pattern=.*\S.* />
+                <label for="registerFirstName" class="label">First Name</label>
+              </div>
+              <div class="field">
+                <input ng-model="input.lastName" type="text" id="registerLastName" class="input" required pattern=.*\S.* />
+                <label for="registerLastName" class="label">Last Name</label>
+              </div>
             </div>
-            <!--
+            <!-- GENERAL -->
             <div class="field">
-              <input ng-model="interest3" type="text" id="registerInterest3" class="input" required pattern=.*\S.* />
-              <label for="registerInterest3" class="label">Interest 3</label>
+              <input ng-model="input.email" type="text" id="registerEmail" class="input" required pattern=.*\S.* />
+              <label for="registerEmail" class="label">E-mail</label>
             </div>
-          -->
             <div class="profile__footer">
               <button name="previous" class="btn-login left previous " value="Previous">Back</button>
               <button name="next" class="btn-login right next" value="Next" ng-click="submitRegistration()">Submit</button>
