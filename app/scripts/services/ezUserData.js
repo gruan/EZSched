@@ -78,7 +78,7 @@
           });
         }
         else { // Group
-          console.log(userName);
+          //console.log(userName);
           attrArr = ['GroupName'];
           tableArr =['Organization'];
           condition = 'GroupID=\'' + userName + '\'';

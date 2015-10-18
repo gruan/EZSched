@@ -32,6 +32,7 @@
       var query = query_path + '?query=SELECT+' + attrStr +
                   '+FROM+' + tableStr + '+WHERE+' + condition;
 
+      //console.log(query);
       //httpGET requests return the object with the data. Data is what we want as array of tuples
       return $http({ method: 'GET',
               url: query
@@ -79,7 +80,7 @@
       var valueStr = listifyArr(valueArr, true, '(', ')');
 
       var query = query_path + '?query=INSERT+INTO+' + table + attrStr + '+VALUES' + valueStr;
-      console.log(query);
+      //console.log(query);
 
       var tableArr = [table];
       return tupleExists(tableArr, attrArr, valueArr).then(function(exists) {
@@ -127,7 +128,7 @@
     // Table is the to delete tuple from the table
     // condition is the condition in WHERE clause
     function deleteQuery(table, condition) {
-      var query_path = '/deleteQuery';
+      var query_path = '/genericQuery';
       var query = query_path + '?query=DELETE+FROM+' + table +
                   '+WHERE+' + condition;
 
@@ -137,11 +138,39 @@
             }).then(function successCallback(response) {
               return $q(function(resolve) {
                 resolve(true);
-              })
+              });
             }, function errorCallback(response) {
               return $q(function(resolve) {
                 resolve(false);
-              })
+              });
+            });
+    }
+
+    function updateQuery(table, attrArr, valueArr, condition) {
+      var exprStr = '';
+      for(var i = 0; i < attrArr.length; ++i) {
+        exprStr = exprStr + attrArr[i] + '=\'' + valueArr[i] +'\'';
+        if(i < attrArr.length - 1) {
+          exprStr += ',';
+        }
+      }
+
+      var query_path = '/genericQuery';
+      var query = query_path + '?query=UPDATE+' + table + '+SET+' +
+                  exprStr + '+WHERE+' + condition;
+
+      //console.log(query);
+
+      return $http({ method: 'GET',
+              url: query
+            }).then(function successCallback(response) {
+              return $q(function(resolve) {
+                resolve(true);
+              });
+            }, function errorCallback(response) {
+              return $q(function(resolve) {
+                resolve(false);
+              });
             });
     }
 
@@ -149,6 +178,7 @@
     ezSQLObj.insertQuery = insertQuery;
     ezSQLObj.getQuery = getQuery;
     ezSQLObj.deleteQuery = deleteQuery;
+    ezSQLObj.updateQuery = updateQuery;
 
     return ezSQLObj;
   }

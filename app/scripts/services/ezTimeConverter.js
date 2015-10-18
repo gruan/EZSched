@@ -100,7 +100,7 @@
         	}
         }
         str = str.join('');
-        console.log(str);
+        //console.log(str);
         return str;
       }
     }
