@@ -10,26 +10,16 @@
   angular.module('EZSched')
     .controller('LoginCtrl', LoginCtrl);
 
-    LoginCtrl.$inject = ['$scope', '$location', '$timeout', 'ezSQL', 'ezUserData'];
+    LoginCtrl.$inject = ['$scope', '$location', '$route', '$timeout', 'ezSQL', 'ezUserData'];
 
     // TODO Create a fade modal function and have it called in loginAttempt after
     // passing validation
 
-    function LoginCtrl ($scope, $location, $timeout, ezSQL, ezUserData) {
+    function LoginCtrl ($scope, $location, $route, $timeout, ezSQL, ezUserData) {
       $scope.username = "";
       $scope.password = "";
 
       function loginAttempt() {
-        //TODO FIX CLICK EVENT HANDLER ACTIVATING ON FAILED login
-
-        /*
-        var attrArr = ['UID', 'Password'];
-        var valueArr = [$scope.username, $scope.password];
-        var table = 'Test';
-        ezSQL.insertQuery(table, attrArr, valueArr);
-        */
-
-
         var attrArr = ['UserID', 'UserPassword'];
         var table = ['Person'];
         var condition = 'UserID=\'' + $scope.username + '\'+AND+UserPassword=\''+ $scope.password + '\'';
@@ -38,13 +28,32 @@
           if(result.length !== 0) { // Succeeded log in
             console.log('Succeed Login');
             ezUserData.setUserName($scope.username);
+            ezUserData.setUserType('user');
             $timeout(function() {
               $location.path('profile');
             }, 300)
           }
           else { // Failed to log in
-            console.log('Failed Login');
-            return;
+            attrArr = ['GroupID', 'GroupPassword'];
+            table = ['Organization'];
+            condition = 'GroupID=\'' + $scope.username + '\'+AND+GroupPassword=\''+$scope.password+'\'';
+            ezSQL.getQuery(attrArr, table, condition).then(function(result) {
+              if(result.length !== 0) {
+                console.log('Group Succeed Login');
+                ezUserData.setUserName($scope.username);
+                ezUserData.setUserType('group');
+                $timeout(function() {
+                  $location.path('profile');
+                }, 300)
+              }
+              else {
+                console.log('Failed Login');
+                $timeout(function() {
+                  $route.reload();
+                }, 300)
+                return;
+              }
+            });
           }
         }, function(error) {
           console.log(error);

@@ -12,14 +12,14 @@
   ezUserData.$inject = ['$q', 'ezSQL'];
 
   function ezUserData($q, ezSQL) {
-    var userName = 'admin';
+    var userName = 'nobe';
     var interests = [];
     var courses = [];
     var events = [];
 
     // group if group
     // user if user
-    var userType ='user';
+    var userType ='group';
 
     var ezUserDataObj = {
       getUserType: function() {
@@ -104,13 +104,12 @@
       },
       getEvents: function() {
         //TODO User version
-        var attrArr = ['EventName', 'EventLocation', 'ScheduleTimes'];
+        var attrArr = ['EventName', 'ScheduleTimes'];
         var tableArr = ['Event'];
         var condition = 'GroupID=\'' + userName + '\'';
         return ezSQL.getQuery(attrArr, tableArr, condition).then(function(result) {
           return $q(function(resolve) {
             events = result;
-            console.log(result);
             resolve(result);
           });
         });

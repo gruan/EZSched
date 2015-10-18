@@ -19,12 +19,18 @@
       $scope.userType = '';
       $scope.interests = [];
       $scope.courses = [];
-      $scope.events = []; // Delete after this is hardcoded
-      $scope.groupEvents = [];
+      $scope.events = [];
+      $scope.hardcodedEvents = [];
 
+      // ng-model variables
       $scope.formData = {
         //interest:
         //course:
+        //event: {
+          //name:
+          //day:
+          //time:
+        //}
       }
 
       // ===== INITIALIZE ======
@@ -49,8 +55,8 @@
           });
         }
         else {  // Group
-          ezUserData.getEvents().then(function(events) {
-            $scope.groupEvents = events;
+          ezUserData.getEvents().then(function(retrievedEvents) {
+            $scope.events = retrievedEvents;
           });
         }
       })
@@ -58,8 +64,16 @@
       // ====== SCOPE FUNCTIONS ======
       function deleteInterest(interest) {
         var interestVal = interest.Interest;
-        var table = 'Looks';
-        var condition = 'UserID=\'' + $scope.userName + '\'+AND+' + 'Interest=\'' + interestVal + '\'';
+        var table, condition;
+        // User Deleting Interest
+        if($scope.userType == 'user') {
+          table = 'Looks';
+          condition = 'UserID=\'' + $scope.userName + '\'+AND+' + 'Interest=\'' + interestVal + '\'';
+        }
+        else {  // Group deleting interest
+          table = 'Relates';
+          condition = 'GroupID=\'' + $scope.userName + '\'+AND+' + 'Interest=\'' + interestVal + '\'';
+        }
         ezSQL.deleteQuery(table, condition).then(function(s) {
           ezUserData.getInterests().then(function(interests) {
             $scope.interests=interests;
@@ -68,13 +82,21 @@
       }
 
       function addInterest() {
-        var table = 'Interest';
-        var attrArr = ['Interest'];
-        var valueArr = [$scope.formData.interest];
+        var table, attrArr, valueArr;
+        table = 'Interest';
+        attrArr = ['Interest'];
+        valueArr = [$scope.formData.interest];
         ezSQL.insertQuery(table, attrArr, valueArr);
 
-        table = 'Looks';
-        attrArr = ['UserID', 'Interest'];
+        // User adding Interest
+        if($scope.userType == 'user') {
+          table = 'Looks';
+          attrArr = ['UserID', 'Interest'];
+        }
+        else {  // Group adding Interest
+          table = 'Relates';
+          attrArr = ['GroupID', 'Interest'];
+        }
         valueArr = [$scope.userName, $scope.formData.interest];
         ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
           $scope.formData.interest = '';
@@ -102,7 +124,7 @@
         ezSQL.insertQuery(table, attrArr, valueArr);
 
         table = 'Takes';
-        attrArr =['UserID', 'CourseID'];
+        attrArr = ['UserID', 'CourseID'];
         valueArr = [$scope.userName, $scope.formData.course];
         ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
           $scope.formData.course = '';
@@ -112,9 +134,35 @@
         });
       }
 
+      function deleteEvent(eventArg) {
+        var table = 'Event';
+        var condition = 'GroupID=\'' + $scope.userName + '\'+AND+' + 'EventName=\'' + eventArg.EventName + '\'';
+        ezSQL.deleteQuery(table, condition).then(function(s) {
+          ezUserData.getEvents().then(function(events){
+            $scope.events = events;
+          });
+        });
+      }
+
+      function addEvent() {
+        var table = 'Event';
+        var attrArr = ['GroupID', 'EventName', 'ScheduleTimes'];
+        var time = $scope.formData.event.day + $scope.formData.event.hour;
+        var valueArr = [$scope.userName, $scope.formData.event.name, time];
+        ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+          $scope.formData.event.name = '';
+          $scope.formData.event.day = '';
+          $scope.formData.event.hour = '';
+          ezUserData.getEvents().then(function(events) {
+            $scope.events = events;
+          });
+        });
+
+      }
+
       function generateEvents() {
         ezScheduleGenerator.generateEvents().then(function(eventsArr) {
-          $scope.events = eventsArr;
+          $scope.hardcodedEvents = eventsArr;
         });
       }
 
@@ -122,6 +170,8 @@
       $scope.addInterest = addInterest;
       $scope.deleteCourse = deleteCourse;
       $scope.addCourse = addCourse;
+      $scope.deleteEvent = deleteEvent;
+      $scope.addEvent = addEvent;
       $scope.generateEvents = generateEvents;
     }
 

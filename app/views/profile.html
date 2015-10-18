@@ -4,6 +4,7 @@
     <h1>{{alias}}</h1>
   </div>
 
+
   <!-- INTERESTS -->
   <div class="row">
     <div class="col-sm-12 text-center">
@@ -18,7 +19,6 @@
       <button type="button" class="btn-login btn-delete btn-vertical-middle" ng-click="deleteInterest(interest)">Delete</button>
     </div>
   </div>
-
   <!-- FORM TO CREATE INTERESTS -->
   <div id="interest-form">
     <div class="col-sm-8 col-sm-offset-2 text-center">
@@ -32,8 +32,9 @@
     </div>
   </div>
 
-  <!-- COURSES -->
-  <div id="courses" ng-if="userType=='user'">
+  <!-- USER SPECIFIC -->
+  <div ng-if="userType=='user'">
+    <!-- COURSES -->
     <div class="row" class="row">
       <div class="col-sm-12 text-center medium-margin-top">
         <h2 class=""><strong>Courses</strong></h2>
@@ -60,30 +61,111 @@
         </form>
       </div>
     </div>
-  </div>
 
-  <!-- EVENTS -->
-  <div class="row">
-    <div class="col-sm-12 text-center medium-margin-top">
-      <h2 class=""><strong>Upcoming Events</strong></h2>
+    <!-- EVENTS -->
+    <div class="row">
+      <div class="col-sm-12 text-center medium-margin-top">
+        <h2 class=""><strong>Upcoming Events</strong></h2>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 text-center very-small-margin-top">
-      <button class="btn-login" ng-click="generateEvents()">Generate Schedule</button>
-    </div>
-    <div class="col-sm-12 text-center event-container">
-      <div class="row" ng-repeat="event in events">
-        <div class="col-sm-3 col-sm-offset-1 text-left">
-          <h2>{{event.eventTime}}</h2>
-        </div>
-        <div class="col-sm-5 text-left">
-          <h2>{{event.eventName}}</h2>
-        </div>
-        <div class="col-sm-3">
-          <h2><a ng-href="{{event.eventLink}}" target="_blank">Link</a></h2>
+    <div class="row">
+      <div class="col-sm-12 text-center very-small-margin-top">
+        <button class="btn-login" ng-click="generateEvents()">Generate Schedule</button>
+      </div>
+      <div class="col-sm-12 text-center event-container">
+        <div class="row" ng-repeat="event in hardcodedEvents">
+          <div class="col-sm-3 col-sm-offset-1 text-left">
+            <h2>{{event.eventTime}}</h2>
+          </div>
+          <div class="col-sm-5 text-left">
+            <h2>{{event.eventName}}</h2>
+          </div>
+          <div class="col-sm-3">
+            <h2><a ng-href="{{event.eventLink}}" target="_blank">Link</a></h2>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+
+
+
+
+
+  <!-- GROUP SPECIFIC -->
+  <div ng-if="userType=='group'">
+    <div class="row">
+      <div class="col-sm-12 text-center medium-margin-top">
+        <h2 class=""><strong>Events</strong></h2>
+      </div>
+    </div>
+
+    <!-- EVENT ROWS -->
+    <div class="row" ng-repeat="event in events">
+      <div class="col-sm-8 col-sm-offset-2 text-center">
+        <h2>{{event.EventName}}</h2>
+      </div>
+      <div class="col-sm-2">
+        <button type="button" class="btn-login btn-delete btn-vertical-middle" ng-click="deleteEvent(event)">Delete</button>
+      </div>
+    </div>
+
+    <!-- CREATE EVENT -->
+    <div id="event-form" class="row">
+      <div class="col-sm-8 col-sm-offset-2 text-center">
+        <form>
+          <div class="form-group">
+            <div class="col-sm-6">
+              <input type="text" class="form-control input-lg text-center" placeholder="Another Event..." ng-model="formData.event.name">
+            </div>
+            <div class="col-sm-3">
+              <select type="text" class="form-control input-lg" ng-model="formData.event.day">
+                <option value="" selected disabled>Day</option>
+                <option value="10000000">Mon</option>
+                <option value="01000000">Tue</option>
+                <option value="00100000">Wed</option>
+                <option value="00010000">Thu</option>
+                <option value="00001000">Fri</option>
+                <option value="00000100">Sat</option>
+                <option value="00000010">Sun</option>
+              </select>
+            </div>
+            <div class="col-sm-3">
+              <select type="text" class="form-control input-lg" ng-model="formData.event.hour">
+                <option value="" selected disabled>Time</option>
+                <option value="100000000000000000000000">12AM</option>
+                <option value="010000000000000000000000">1AM</option>
+                <option value="001000000000000000000000">2AM</option>
+                <option value="000100000000000000000000">3AM</option>
+                <option value="000010000000000000000000">4AM</option>
+                <option value="000001000000000000000000">5AM</option>
+                <option value="000000100000000000000000">6AM</option>
+                <option value="000000010000000000000000">7AM</option>
+                <option value="000000001000000000000000">8AM</option>
+                <option value="000000000100000000000000">9AM</option>
+                <option value="000000000010000000000000">10AM</option>
+                <option value="000000000001000000000000">11AM</option>
+                <option value="000000000000100000000000">12PM</option>
+                <option value="000000000000010000000000">1PM</option>
+                <option value="000000000000001000000000">2PM</option>
+                <option value="000000000000000100000000">3PM</option>
+                <option value="000000000000000010000000">4PM</option>
+                <option value="000000000000000001000000">5PM</option>
+                <option value="000000000000000000100000">6PM</option>
+                <option value="000000000000000000010000">7PM</option>
+                <option value="000000000000000000001000">8PM</option>
+                <option value="000000000000000000000100">9PM</option>
+                <option value="000000000000000000000010">10PM</option>
+                <option value="000000000000000000000001">11PM</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-login small-margin-top" ng-click="addEvent()">Add Event</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
 </div>
