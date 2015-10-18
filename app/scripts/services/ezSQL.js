@@ -79,11 +79,12 @@
       var valueStr = listifyArr(valueArr, true, '(', ')');
 
       var query = query_path + '?query=INSERT+INTO+' + table + attrStr + '+VALUES' + valueStr;
+      console.log(query);
 
       var tableArr = [table];
       return tupleExists(tableArr, attrArr, valueArr).then(function(exists) {
         if(!exists) {
-          $http({method: 'POST',
+          $http({method: 'GET',
             url: query
           }).then(function successCallback(response) {
           }, function errorCallback(response) {

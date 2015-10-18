@@ -51,7 +51,7 @@
       },
       {
         eventTime: 'Wed 7PM',
-        eventName: 'Chess Club Meeting',
+        eventName: 'Chess Club Meeting1',
         eventLink: 'https://illinois.collegiatelink.net/organization/illinichessclub'
       },
       {
@@ -61,22 +61,22 @@
       },
       {
         eventTime: 'Thurs 7PM',
-        eventName: 'Ballroom Dancing',
+        eventName: 'Ballroom Dancing1',
         eventLink: 'https://publish.illinois.edu/dancing/'
       },
       {
         eventTime: 'Thurs 8PM',
-        eventName: 'Ballroom Dancing',
+        eventName: 'Ballroom Dancing2',
         eventLink: 'https://publish.illinois.edu/dancing/'
       },
       {
         eventTime: 'Sun 6PM',
-        eventName: 'Chess Club Meeting',
+        eventName: 'Chess Club Meeting2',
         eventLink: 'https://illinois.collegiatelink.net/organization/illinichessclub'
       },
       {
         eventTime: 'Sun 7PM',
-        eventName: 'Chess Club Meeting',
+        eventName: 'Chess Club Meeting3',
         eventLink: 'https://illinois.collegiatelink.net/organization/illinichessclub'
       }
     ];

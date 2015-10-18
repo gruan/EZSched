@@ -25,13 +25,13 @@
 
   /* ===== SQL QUERIES ===== */
 
-  app.post("/insertQuery", function(req, res) {
+  app.get("/insertQuery", function(req, res) {
     var queryData = url.parse(req.url, true).query;
     console.log(queryData);
     connection.query(queryData.query, function(error){ // To specify query do http.get(?query=<Full query goes here>)
     //connection.query('SELECT * FROM Test', function(err, rows, fields) {
       if (error) throw error;
-
+      res.send(true);
       //console.log(rows[0]);
     });
   });

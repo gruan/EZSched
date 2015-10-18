@@ -14,13 +14,13 @@
 
 
     function ProfileCtrl ($scope, $q, ezUserData, ezSQL, ezScheduleGenerator, ezTimeConverter) {
-      $scope.userName = ''
-      $scope.alias = '';
-      $scope.userType = '';
-      $scope.interests = [];
-      $scope.courses = [];
-      $scope.events = [];
-      $scope.eventsReadable = [];
+      //$scope.userName = ''
+      //$scope.alias = '';
+      //$scope.userType = '';
+      //$scope.interests = [];
+      //$scope.courses = [];
+      //$scope.events = [];
+      //$scope.eventsReadable = [];
       $scope.hardcodedEvents = [];
 
       // ng-model variables
