@@ -2,7 +2,11 @@
   margin: 20px 0 10px 0;
 }
 
-.event-container {
+.small-bottom-container {
+  min-height: 200px;
+}
+
+.bottom-container {
   min-height: 500px;
 }
 
@@ -12,7 +16,7 @@
 
 #profile .medium-margin-top {
   margin-top: 15%;
-
+}
 
 #profile .very-small-margin-top {
   margin-top: 1%;

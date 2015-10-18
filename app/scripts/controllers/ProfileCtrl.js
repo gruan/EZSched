@@ -10,16 +10,17 @@
   angular.module('EZSched')
     .controller('ProfileCtrl', ProfileCtrl);
 
-    ProfileCtrl.$inject = ['$scope', '$q', 'ezUserData', 'ezSQL', 'ezScheduleGenerator'];
+    ProfileCtrl.$inject = ['$scope', '$q', 'ezUserData', 'ezSQL', 'ezScheduleGenerator', 'ezTimeConverter'];
 
 
-    function ProfileCtrl ($scope, $q, ezUserData, ezSQL, ezScheduleGenerator) {
+    function ProfileCtrl ($scope, $q, ezUserData, ezSQL, ezScheduleGenerator, ezTimeConverter) {
       $scope.userName = ''
       $scope.alias = '';
       $scope.userType = '';
       $scope.interests = [];
       $scope.courses = [];
       $scope.events = [];
+      $scope.eventsReadable = [];
       $scope.hardcodedEvents = [];
 
       // ng-model variables
@@ -34,32 +35,67 @@
       }
 
       // ===== INITIALIZE ======
-      ezUserData.getUserType().then(function(storedType) {
-        $scope.userType = storedType;
+      getUserType();
 
+      function getUserType() {
+        ezUserData.getUserType().then(function(storedType) {
+          $scope.userType = storedType;
+
+          getUserName();
+          getAlias();
+          getInterests();
+
+          if($scope.userType == 'user') {
+            getCourses();
+          }
+          else {  // Group
+            getEvents();
+          }
+        });
+      }
+
+      function getUserName() {
         ezUserData.getUserName().then(function(name) {
           $scope.userName = name;
         })
+      }
 
+      function getAlias() {
         ezUserData.getAlias().then(function(name) {
           $scope.alias = name;
         });
+      }
 
+      function getInterests() {
         ezUserData.getInterests().then(function(interests) {
           $scope.interests = interests;
         });
+      }
 
-        if($scope.userType == 'user') {
-          ezUserData.getCourses().then(function(courses) {
-            $scope.courses = courses;
-          });
-        }
-        else {  // Group
-          ezUserData.getEvents().then(function(retrievedEvents) {
-            $scope.events = retrievedEvents;
-          });
-        }
-      })
+      function getCourses() {
+        ezUserData.getCourses().then(function(courses) {
+          $scope.courses = courses;
+        });
+      }
+
+      function getEvents() {
+        ezUserData.getEvents().then(function(retrievedEvents) {
+          console.log(retrievedEvents);
+          $scope.events = retrievedEvents;
+
+          $scope.eventsReadable = [];
+          for(var i = 0; i < $scope.events.length; ++i) {
+            $scope.eventsReadable.push({
+              EventName: $scope.events[i].EventName,
+              ScheduleTimes: ezTimeConverter.dayToReadable($scope.events[i].ScheduleTimes)
+            });
+          }
+
+          console.log($scope.eventsReadable);
+          console.log($scope.events);
+        });
+
+      }
 
       // ====== SCOPE FUNCTIONS ======
       function deleteInterest(interest) {
@@ -75,9 +111,7 @@
           condition = 'GroupID=\'' + $scope.userName + '\'+AND+' + 'Interest=\'' + interestVal + '\'';
         }
         ezSQL.deleteQuery(table, condition).then(function(s) {
-          ezUserData.getInterests().then(function(interests) {
-            $scope.interests=interests;
-          });
+          getInterests();
         });
       }
 
@@ -100,9 +134,7 @@
         valueArr = [$scope.userName, $scope.formData.interest];
         ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
           $scope.formData.interest = '';
-          ezUserData.getInterests().then(function(interests) {
-            $scope.interests=interests;
-          });
+          getInterests();
         });
       }
 
@@ -111,9 +143,7 @@
         var table = 'Takes';
         var condition = 'UserID=\'' + $scope.userName + '\'+AND+' + 'CourseID=\'' + courseID +'\'';
         ezSQL.deleteQuery(table, condition).then(function(s) {
-          ezUserData.getCourses().then(function(courses) {
-            $scope.courses = courses;
-          });
+          getCourses();
         });
       }
 
@@ -128,9 +158,7 @@
         valueArr = [$scope.userName, $scope.formData.course];
         ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
           $scope.formData.course = '';
-          ezUserData.getCourses().then(function(courses) {
-            $scope.courses = courses;
-          })
+          getCourses();
         });
       }
 
@@ -138,9 +166,7 @@
         var table = 'Event';
         var condition = 'GroupID=\'' + $scope.userName + '\'+AND+' + 'EventName=\'' + eventArg.EventName + '\'';
         ezSQL.deleteQuery(table, condition).then(function(s) {
-          ezUserData.getEvents().then(function(events){
-            $scope.events = events;
-          });
+          getEvents();
         });
       }
 
@@ -153,9 +179,7 @@
           $scope.formData.event.name = '';
           $scope.formData.event.day = '';
           $scope.formData.event.hour = '';
-          ezUserData.getEvents().then(function(events) {
-            $scope.events = events;
-          });
+          getEvents();
         });
 
       }

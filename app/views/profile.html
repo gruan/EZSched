@@ -72,7 +72,7 @@
       <div class="col-sm-12 text-center very-small-margin-top">
         <button class="btn-login" ng-click="generateEvents()">Generate Schedule</button>
       </div>
-      <div class="col-sm-12 text-center event-container">
+      <div class="col-sm-12 text-center bottom-container">
         <div class="row" ng-repeat="event in hardcodedEvents">
           <div class="col-sm-3 col-sm-offset-1 text-left">
             <h2>{{event.eventTime}}</h2>
@@ -102,8 +102,11 @@
     </div>
 
     <!-- EVENT ROWS -->
-    <div class="row" ng-repeat="event in events">
-      <div class="col-sm-8 col-sm-offset-2 text-center">
+    <div class="row" ng-repeat="event in eventsReadable">
+      <div class="col-sm-3 col-sm-offset-1 text-left">
+        <h2>{{event.ScheduleTimes}}</h2>
+      </div>
+      <div class="col-sm-5 text-left">
         <h2>{{event.EventName}}</h2>
       </div>
       <div class="col-sm-2">
@@ -113,7 +116,7 @@
 
     <!-- CREATE EVENT -->
     <div id="event-form" class="row">
-      <div class="col-sm-8 col-sm-offset-2 text-center">
+      <div class="col-sm-8 col-sm-offset-2 text-center small-bottom-container">
         <form>
           <div class="form-group">
             <div class="col-sm-6">

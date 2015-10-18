@@ -2,6 +2,11 @@
  * Created on October 18, 2015 by George Ruan.
  *
  * Service that generates schedules for us.
+ * Time is stored in two formats:
+ *  1. String of one 0 bit at the end, 7 bits for each day of the week MTWRFSU and
+ *  then 24 bits for each hours of the day. i.e. Monday at 2AM is 10000000 00100000 00000000 00000000
+ *  2. String of seven 24 bit substrings, where each bit is an hour of the day. Substrings in order
+ *  MTWRFSU.
  */
 
 (function() {
@@ -77,8 +82,6 @@
     ];
 
     var ezScheduleGeneratorObj = {
-      // timesInBits should be a string. MTWRFSU. 8 0 bits. Followed by the hours 0-24.
-      // Ex. 1AM on monday is  00000000 100000000 00000000 00000000
       generateEvents: function() {
         var result = [];
 
