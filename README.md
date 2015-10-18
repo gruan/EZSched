@@ -5,4 +5,4 @@ Discovering groups of interest is tedious and difficult in the modern day and ag
 ### Solution
 Often times students end up trying out 10-20+ clubs, only to end up becoming regulars to a select few. EZSched is designed to minimize the wasted time that's spent going to clubs that seemed to be a good fit, but in reality were not. By allowing users and organizations to input their schedules and relevant interests, we can cross-reference their schedules and suggest different club activities and events for users to attend. Effectively EZSched helps our users save valuable time by eliminating the out-dated process of manually finding, picking, and trying out groups of interest.
 
-ezsched411.web.engr.illinois.edu
+[ezsched411.web.engr.illinois.edu](ezsched411.web.engr.illinois.edu)
