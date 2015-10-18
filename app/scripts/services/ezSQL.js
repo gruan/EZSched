@@ -32,8 +32,6 @@
       var query = query_path + '?query=SELECT+' + attrStr +
                   '+FROM+' + tableStr + '+WHERE+' + condition;
 
-      console.log(query);
-
       //httpGET requests return the object with the data. Data is what we want as array of tuples
       return $http({ method: 'GET',
               url: query
@@ -125,9 +123,31 @@
             });
     }
 
+    // Table is the to delete tuple from the table
+    // condition is the condition in WHERE clause
+    function deleteQuery(table, condition) {
+      var query_path = '/deleteQuery';
+      var query = query_path + '?query=DELETE+FROM+' + table +
+                  '+WHERE+' + condition;
+
+      //console.log(query);
+      return $http({ method: 'GET',
+              url: query
+            }).then(function successCallback(response) {
+              return $q(function(resolve) {
+                resolve(true);
+              })
+            }, function errorCallback(response) {
+              return $q(function(resolve) {
+                resolve(false);
+              })
+            });
+    }
+
     ezSQLObj.tupleExists = tupleExists;
     ezSQLObj.insertQuery = insertQuery;
     ezSQLObj.getQuery = getQuery;
+    ezSQLObj.deleteQuery = deleteQuery;
 
     return ezSQLObj;
   }

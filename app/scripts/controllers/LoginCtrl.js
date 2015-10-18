@@ -10,12 +10,12 @@
   angular.module('EZSched')
     .controller('LoginCtrl', LoginCtrl);
 
-    LoginCtrl.$inject = ['$scope', '$location', '$timeout', 'ezSQL'];
+    LoginCtrl.$inject = ['$scope', '$location', '$timeout', 'ezSQL', 'ezUserData'];
 
     // TODO Create a fade modal function and have it called in loginAttempt after
     // passing validation
 
-    function LoginCtrl ($scope, $location, $timeout, ezSQL) {
+    function LoginCtrl ($scope, $location, $timeout, ezSQL, ezUserData) {
       $scope.username = "";
       $scope.password = "";
 
@@ -37,6 +37,7 @@
           console.log(result);
           if(result.length !== 0) { // Succeeded log in
             console.log('Succeed Login');
+            ezUserData.setUserName($scope.username);
             $timeout(function() {
               $location.path('profile');
             }, 300)

@@ -10,9 +10,9 @@
   angular.module('EZSched')
     .controller('RegistrationCtrl', RegistrationCtrl);
 
-    RegistrationCtrl.$inject = ['$scope', '$location', '$timeout', '$q', 'ezSQL'];
+    RegistrationCtrl.$inject = ['$scope', '$location', '$timeout', '$q', 'ezSQL', 'ezUserData'];
 
-    function RegistrationCtrl ($scope, $location, $timeout, $q, ezSQL) {
+    function RegistrationCtrl ($scope, $location, $timeout, $q, ezSQL, ezUserData) {
       $scope.username = "";
       $scope.password = "";
       $scope.cPassword = "";
@@ -78,6 +78,7 @@
           });*/
         })
 
+        ezUserData.setUserName($scope.username);
         $timeout(function() {
           $location.path('profile');
         }, 300)

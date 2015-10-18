@@ -146,6 +146,14 @@ input:valid + .label {
   background: #30B4EF;
 }
 
+.btn-login.btn-delete {
+  background: #F44336;
+}
+.btn-login.btn-delete:hover,
+.btn-login.btn-delete:focus {
+  background: #E43326;
+}
+
 .right-btn {
   float: right;
 }

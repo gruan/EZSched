@@ -46,6 +46,17 @@
     });
   });
 
+  app.get("/deleteQuery", function(req, res) {
+    var queryData = url.parse(req.url, true).query;
+    console.log(queryData);
+    connection.query(queryData.query, function(error, rows, fields){ // To specify query do http.get(?query=<Full query goes here>)
+    //connection.query('SELECT * FROM Test', function(err, rows, fields) {
+      if (error) throw error;
+
+      res.send(true);
+    });
+  })
+
 
 /*
   connection.query("?" 'INSERT INTO Test(UID,Password) VALUES(\'abc\',\'ddd\')', function(err, rows, fields)
