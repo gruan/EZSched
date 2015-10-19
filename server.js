@@ -41,7 +41,6 @@
     console.log(queryData);
     connection.query(queryData.query, function(error, rows, fields) {
       if (error) throw error;
-      console.log(rows);
       res.send(rows);
     });
   });

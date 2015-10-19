@@ -3,9 +3,9 @@
  *
  * Service that generates schedules for us.
  * Time is stored in two formats:
- *  1. String of one 0 bit at the end, 7 bits for each day of the week MTWRFSU and
+ *  1. (DAY) String of one 0 bit (character type) at the end, 7 bits for each day of the week MTWRFSU and
  *  then 24 bits for each hours of the day. i.e. Monday at 2AM is 10000000 00100000 00000000 00000000
- *  2. String of seven 24 bit substrings, where each bit is an hour of the day. Substrings in order
+ *  2. (WEEK) String of seven 24 bit (character type) substrings, where each bit is an hour of the day. Substrings in order
  *  MTWRFSU.
  */
 
