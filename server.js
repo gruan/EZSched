@@ -56,46 +56,15 @@
     });
   })
 
-
-/*
-  connection.query("?" 'INSERT INTO Test(UID,Password) VALUES(\'abc\',\'ddd\')', function(err, rows, fields)
-  {
-  if (err) throw err;
-
-  console.log(rows[1]);
-  });
-  */
-
-/*
-  app.get("/query",function(req,res){
-    connection.query('SELECT * from Table', function(err, rows, fields) {
-    if (!err)
-      console.log('The solution is: ', rows);
-    else
-      console.log('Error while performing Query.');
-    });
-  });
-
-
-  app.post('/query', function (req, res) {
-    var queryData = url.parse(req.url, true).query;
-    response.writeHead(200, {"Content-Type": "text/plain"});
-
-    connection.query("?", [queryData.query], function(error){ // To specify query do http.get(?query=<Full query goes here>)
-      console.log("Error!");
-    });
-  });
-  */
-
   /* ===== END SQL QUERIES ===== */
 
   app.get('/', function (req, res) {
     res.sendFile(__dirname + '/app/index.html');
   });
 
-  var port = 8080;
+  var port = 14001;
   app.listen(port, function () {
-    console.log('Listening on port 8080');
+    console.log('Listening on port %d', port);
   });
 
   //connection.end();
