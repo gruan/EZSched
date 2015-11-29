@@ -3,8 +3,10 @@
  *
  * Service that generates schedules for us.
  * Time is stored in two formats:
- *  1. String of one 0 bit at the end, 7 bits for each day of the week MTWRFSU and
- *  then 24 bits for each hours of the day. i.e. Monday at 2AM is 10000000 00100000 00000000 00000000
+ *  1. String of one 4 groups of 8 bits. The first group denotes each day of
+ *  the week, in MTWRFSU order. The 8th bit is 0 and acts as a placeholder.
+ *  The other 3 groups of 8 bits represents each hour of the day. Starting at 0:00 and going to 23:00.
+ *  i.e. Monday at 2AM is 10000000 00100000 00000000 00000000
  *  2. String of seven 24 bit substrings, where each bit is an hour of the day. Substrings in order
  *  MTWRFSU.
  */
@@ -14,9 +16,9 @@
   angular.module('EZSched')
     .factory('ezTimeConverter', ezTimeConverter);
 
-  ezTimeConverter.$inject = ['$q', 'ezSQL'];
+  ezTimeConverter.$inject = [];
 
-  function ezTimeConverter($q, ezSQL) {
+  function ezTimeConverter() {
 
     var ezTimeConverterObj = {
       // Converts day (format 1) to week (format 2)
@@ -44,45 +46,35 @@
       // @param time is 32 bit char array in format 1 above.
       // @return string that is readable.
       dayToReadable: function(time) {
+        //console.log("dayToReadable %s", time);
         var str = [];
-        if(time[0] === 1) {
-        	str.push('M');
-        	str.push('o');
-        	str.push('n');
+        // Determine the string of the day
+        if(time[0] === '1') {
+        	str.push('Mon');
         }
-        else if(time[1] === 1) {
-        	str.push('T');
-        	str.push('u');
-        	str.push('e');
+        else if(time[1] === '1') {
+        	str.push('Tue');
         }
-        else if(time[2] === 1) {
-        	str.push('W');
-        	str.push('e');
-        	str.push('d');
+        else if(time[2] === '1') {
+        	str.push('Wed');
         }
-        else if(time[3] === 1) {
-        	str.push('T');
-        	str.push('h');
-        	str.push('u');
+        else if(time[3] === '1') {
+        	str.push('Thu');
         }
-        else if(time[4] === 1) {
-        	str.push('F');
-        	str.push('r');
-        	str.push('i');
+        else if(time[4] === '1') {
+        	str.push('Fri');
         }
-        else if(time[5] === 1) {
-        	str.push('S');
-        	str.push('a');
-        	str.push('t');
+        else if(time[5] === '1') {
+        	str.push('Sat');
         }
-        else if(time[6] === 1) {
-        	str.push('S');
-        	str.push('u');
-        	str.push('n');
+        else if(time[6] === '1') {
+        	str.push('Sun');
         }
         str.push(' ');
+        // Determine the time. i needs to be offset by 8 bits that represent
+        // the day of the week
         for(var i = 0; i < 24; ++i) {
-        	if(time[i+8] === 1) {
+        	if(time[i+8] === '1') {
         		var p = i;
             if(p > 12) {
               p -= 12;
