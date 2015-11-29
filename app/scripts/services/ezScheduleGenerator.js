@@ -86,18 +86,18 @@
         var result = [];
 
         for(var i = 0; i < randomBank.length; ++i) {
-          if(Math.random() > 0.50 && (i === 0 || randomBank[i].eventName != randomBank[i-1].eventName)) {
+          if(Math.random() > 0.50 && (i === 0 || randomBank[i].eventName !== randomBank[i-1].eventName)) {
             result.push(randomBank[i]);
-            while(i+1 < randomBank.length && randomBank[i].eventName == randomBank[i+1].eventName) {
+            while(i+1 < randomBank.length && randomBank[i].eventName === randomBank[i+1].eventName) {
               result.push(randomBank[++i]);
             }
           }
-        };
+        }
         return $q(function(resolve) {
           resolve(result);
         });
       }
-    }
+    };
 
     return ezScheduleGeneratorObj;
   }

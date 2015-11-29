@@ -12,7 +12,7 @@
 
     RegistrationCtrl.$inject = ['$scope', '$location', '$timeout', '$q', 'ezSQL', 'ezUserData'];
 
-    function RegistrationCtrl ($scope, $location, $timeout, $q, ezSQL, ezUserData) {
+    function RegistrationCtrl ($scope, $location, $timeout, ezSQL, ezUserData) {
       $scope.input = {
         username: '',
         password: '',
@@ -29,7 +29,7 @@
         // User
         firstName: '',
         lastName: '',
-      }
+      };
 
       // TODO Add transitionModalNext and transitionModalPrev that transitions between
       // fieldsets upon passing validation.
@@ -38,15 +38,15 @@
         var table, attrArr, valueArr;
 
         // User Specific Registration
-        if($scope.input.userType=='user') {
-          table = 'Person'
+        if($scope.input.userType === 'user') {
+          table = 'Person';
           attrArr = ['UserID', 'FirstName', 'LastName', 'UserPassword'];
           console.log('First %s Last %s', $scope.input.firstName, $scope.input.lastName);
           valueArr = [$scope.input.username, $scope.input.firstName, $scope.input.lastName, $scope.input.password];
           ezSQL.insertQuery(table, attrArr, valueArr);
         }
         else { // Group Specific Registration
-          table = 'Organization'
+          table = 'Organization';
           attrArr = ['GroupID', 'GroupName', 'GroupPassword'];
           valueArr = [$scope.input.username, $scope.input.groupName, $scope.input.password];
           ezSQL.insertQuery(table, attrArr, valueArr);
@@ -61,7 +61,7 @@
         ezSQL.insertQuery(table, attrArr, valueArr);
 
         // User Specific Registration
-        if($scope.input.userType == 'user') {
+        if($scope.input.userType === 'user') {
           table = 'Looks';
           attrArr = ['UserID', 'Interest'];
         }
@@ -85,7 +85,7 @@
         ezUserData.setUserType($scope.input.userType);
         $timeout(function() {
           $location.path('profile');
-        }, 300)
+        }, 300);
       }
 
       $scope.submitRegistration = submitRegistration;
@@ -95,12 +95,12 @@
       var left, opacity, scale; //fieldset properties which we will animate
       var animating; //flag to prevent quick multi-click glitches
 
-      $(".next").click(function(){
-      	if(animating) return false;
+      $('.next').click(function(){
+      	if(animating) { return false; }
       	animating = true;
 
-      	current_fs = $(this).closest("fieldset");
-      	next_fs = $(this).closest("fieldset").next();
+      	current_fs = $(this).closest('fieldset');
+      	next_fs = $(this).closest('fieldset').next();
 
       	//show the next fieldset
       	next_fs.show();
@@ -125,12 +125,12 @@
       	});
       });
 
-      $(".previous").click(function(){
-      	if(animating) return false;
+      $('.previous').click(function(){
+      	if(animating) { return false; }
       	animating = true;
 
-      	current_fs = $(this).closest("fieldset");
-      	previous_fs = $(this).closest("fieldset").prev();
+      	current_fs = $(this).closest('fieldset');
+      	previous_fs = $(this).closest('fieldset').prev();
 
       	//de-activate current step on progressbar
       	//$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");

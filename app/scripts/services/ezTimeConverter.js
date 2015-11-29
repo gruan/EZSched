@@ -24,15 +24,17 @@
       // @return Returns a 168 bit char array in format 2 above.
       dayToWeek: function(array) {
         var time = [];
-
+        var i;
         for(var d = 0; d < 7; ++d) {
-        	if(array[d] == 0) {
-        		for(var i = 0; i < 24; ++i)
+        	if(array[d] === 0) {
+        		for(i = 0; i < 24; ++i) {
         			time.push('0');
+            }
         	}
         	else {
-        		for(var i = 8; i < 32; ++i)
+        		for(i = 8; i < 32; ++i) {
         			time.push(array[i]);
+            }
         	}
         }
         time = time.join('');
@@ -43,59 +45,64 @@
       // @return string that is readable.
       dayToReadable: function(time) {
         var str = [];
-        if(time[0] == 1) {
+        if(time[0] === 1) {
         	str.push('M');
         	str.push('o');
         	str.push('n');
         }
-        else if(time[1] == 1) {
+        else if(time[1] === 1) {
         	str.push('T');
         	str.push('u');
         	str.push('e');
         }
-        else if(time[2] == 1) {
+        else if(time[2] === 1) {
         	str.push('W');
         	str.push('e');
         	str.push('d');
         }
-        else if(time[3] == 1) {
+        else if(time[3] === 1) {
         	str.push('T');
         	str.push('h');
         	str.push('u');
         }
-        else if(time[4] == 1) {
+        else if(time[4] === 1) {
         	str.push('F');
         	str.push('r');
         	str.push('i');
         }
-        else if(time[5] == 1) {
+        else if(time[5] === 1) {
         	str.push('S');
         	str.push('a');
         	str.push('t');
         }
-        else if(time[6] == 1) {
+        else if(time[6] === 1) {
         	str.push('S');
         	str.push('u');
         	str.push('n');
         }
         str.push(' ');
         for(var i = 0; i < 24; ++i) {
-        	if(time[i+8] == 1) {
+        	if(time[i+8] === 1) {
         		var p = i;
-            if(p > 12)
+            if(p > 12) {
               p -= 12;
-            if(p == 0)
+            }
+            if(p === 0) {
               p = 12;
-        		if(p >= 10)
+            }
+        		if(p >= 10) {
         			str.push('1');
+            }
         		var n = p%10;
         		str.push(n.toString());
             str.push(' ');
 
-        		if(i > 11)
+        		if(i > 11) {
         			str.push('P');
-        		else
+            }
+        		else {
         			str.push('A');
+            }
         		str.push('M');
         	}
         }
@@ -103,7 +110,7 @@
         //console.log(str);
         return str;
       }
-    }
+    };
 
     return ezTimeConverterObj;
   }

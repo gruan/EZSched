@@ -32,7 +32,7 @@
           //day:
           //time:
         //}
-      }
+      };
 
       // ===== INITIALIZE ======
       getUserType();
@@ -45,7 +45,7 @@
           getAlias();
           getInterests();
 
-          if($scope.userType == 'user') {
+          if($scope.userType === 'user') {
             getCourses();
           }
           else {  // Group
@@ -57,7 +57,7 @@
       function getUserName() {
         ezUserData.getUserName().then(function(name) {
           $scope.userName = name;
-        })
+        });
       }
 
       function getAlias() {
@@ -102,7 +102,7 @@
         var interestVal = interest.Interest;
         var table, condition;
         // User Deleting Interest
-        if($scope.userType == 'user') {
+        if($scope.userType === 'user') {
           table = 'Looks';
           condition = 'UserID=\'' + $scope.userName + '\'+AND+' + 'Interest=\'' + interestVal + '\'';
         }
@@ -110,7 +110,7 @@
           table = 'Relates';
           condition = 'GroupID=\'' + $scope.userName + '\'+AND+' + 'Interest=\'' + interestVal + '\'';
         }
-        ezSQL.deleteQuery(table, condition).then(function(s) {
+        ezSQL.deleteQuery(table, condition).then(function(/* success */) {
           getInterests();
         });
       }
@@ -123,7 +123,7 @@
         ezSQL.insertQuery(table, attrArr, valueArr);
 
         // User adding Interest
-        if($scope.userType == 'user') {
+        if($scope.userType === 'user') {
           table = 'Looks';
           attrArr = ['UserID', 'Interest'];
         }
@@ -132,7 +132,7 @@
           attrArr = ['GroupID', 'Interest'];
         }
         valueArr = [$scope.userName, $scope.formData.interest];
-        ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+        ezSQL.insertQuery(table, attrArr, valueArr).then(function(/* success */) {
           $scope.formData.interest = '';
           getInterests();
         });
@@ -142,7 +142,7 @@
         var courseID = course.CourseID;
         var table = 'Takes';
         var condition = 'UserID=\'' + $scope.userName + '\'+AND+' + 'CourseID=\'' + courseID +'\'';
-        ezSQL.deleteQuery(table, condition).then(function(s) {
+        ezSQL.deleteQuery(table, condition).then(function(/* success */) {
           getCourses();
         });
       }
@@ -156,7 +156,7 @@
         table = 'Takes';
         attrArr = ['UserID', 'CourseID'];
         valueArr = [$scope.userName, $scope.formData.course];
-        ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+        ezSQL.insertQuery(table, attrArr, valueArr).then(function(/* success */) {
           $scope.formData.course = '';
           getCourses();
         });
@@ -165,7 +165,7 @@
       function deleteEvent(eventArg) {
         var table = 'Event';
         var condition = 'GroupID=\'' + $scope.userName + '\'+AND+' + 'EventName=\'' + eventArg.EventName + '\'';
-        ezSQL.deleteQuery(table, condition).then(function(s) {
+        ezSQL.deleteQuery(table, condition).then(function(/* success */) {
           getEvents();
         });
       }
@@ -189,7 +189,7 @@
             attrArr = ['ScheduleTimes'];
             valueArr = [time];
             var condition = 'EventName=\'' + $scope.formData.event.name + '\'';
-            ezSQL.updateQuery(table, attrArr, valueArr, condition).then(function(success) {
+            ezSQL.updateQuery(table, attrArr, valueArr, condition).then(function(/* success */) {
               $scope.formData.event.name = '';
               $scope.formData.event.day = '';
               $scope.formData.event.hour = '';
@@ -199,7 +199,7 @@
             attrArr = ['GroupID', 'EventName', 'ScheduleTimes'];
             valueArr = [$scope.userName, $scope.formData.event.name, time];
 
-            ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+            ezSQL.insertQuery(table, attrArr, valueArr).then(function(/* success */) {
               $scope.formData.event.name = '';
               $scope.formData.event.day = '';
               $scope.formData.event.hour = '';

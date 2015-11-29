@@ -3,7 +3,6 @@
   var express    = require('express');
   var mysql      = require('mysql');
   var url        = require('url');
-  var http       = require('http');
   var app        = express();
 
   var connection = mysql.createConnection({
@@ -25,36 +24,36 @@
 
   /* ===== SQL QUERIES ===== */
 
-  app.get("/insertQuery", function(req, res) {
+  app.get('/insertQuery', function(req, res) {
     var queryData = url.parse(req.url, true).query;
     console.log(queryData);
     connection.query(queryData.query, function(error){ // To specify query do http.get(?query=<Full query goes here>)
     //connection.query('SELECT * FROM Test', function(err, rows, fields) {
-      if (error) throw error;
+      if (error) { throw error; }
       res.send(true);
       //console.log(rows[0]);
     });
   });
 
-  app.get("/getQuery", function(req, res) {
+  app.get('/getQuery', function(req, res) {
     var queryData = url.parse(req.url, true).query;
     console.log(queryData);
     connection.query(queryData.query, function(error, rows, fields) {
-      if (error) throw error;
+      if (error) { throw error; }
       res.send(rows);
     });
   });
 
-  app.get("/genericQuery", function(req, res) {
+  app.get('/genericQuery', function(req, res) {
     var queryData = url.parse(req.url, true).query;
     console.log(queryData);
     connection.query(queryData.query, function(error, rows, fields){ // To specify query do http.get(?query=<Full query goes here>)
     //connection.query('SELECT * FROM Test', function(err, rows, fields) {
-      if (error) throw error;
+      if (error) { throw error; }
 
       res.send(true);
     });
-  })
+  });
 
   /* ===== END SQL QUERIES ===== */
 

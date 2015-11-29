@@ -16,8 +16,8 @@
     // passing validation
 
     function LoginCtrl ($scope, $location, $route, $timeout, ezSQL, ezUserData) {
-      $scope.username = "";
-      $scope.password = "";
+      $scope.username = '';
+      $scope.password = '';
 
       function loginAttempt() {
         var attrArr = ['UserID', 'UserPassword'];
@@ -31,7 +31,7 @@
             ezUserData.setUserType('user');
             $timeout(function() {
               $location.path('profile');
-            }, 300)
+            }, 300);
           }
           else { // Failed to log in
             attrArr = ['GroupID', 'GroupPassword'];
@@ -44,13 +44,13 @@
                 ezUserData.setUserType('group');
                 $timeout(function() {
                   $location.path('profile');
-                }, 300)
+                }, 300);
               }
               else {
                 console.log('Failed Login');
                 $timeout(function() {
                   $route.reload();
-                }, 300)
+                }, 300);
                 return;
               }
             });
@@ -65,8 +65,8 @@
       function register() {
         $timeout(function() {
           $location.path('register');
-        }, 300)
-      };
+        }, 300);
+      }
 
       $scope.loginAttempt = loginAttempt;
       $scope.register = register;
@@ -75,13 +75,13 @@
         [].map.call(document.querySelectorAll('.profile'), function(el) {
           el.classList.toggle('profile--open');
         });
-      })
+      });
 
       var current;
       var scale, opacity;
       var animating;
-      $(".login").click(function(){
-        if(animating) return false;
+      $('.login').click(function(){
+        if(animating) { return false; }
         animating = true;
 
         current = $('#login > .profile');

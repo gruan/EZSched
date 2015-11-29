@@ -46,7 +46,7 @@
       },
       getInterests: function() { // Returns an array of interests
         var attrArr, tableArr, condition;
-        if(userType == 'user') {
+        if(userType === 'user') {
           attrArr = ['Interest'];
           tableArr =['Looks'];
           condition = 'UserID=\'' + userName +'\'';
@@ -66,7 +66,7 @@
       },
       getAlias: function() {
         var attrArr, tableArr, condition;
-        if(userType == 'user') {
+        if(userType === 'user') {
           attrArr = ['FirstName'];
           tableArr =['Person'];
           condition = 'UserID=\'' + userName +'\'';
@@ -114,7 +114,7 @@
           });
         });
       }
-    }
+    };
 
     return ezUserDataObj;
   }

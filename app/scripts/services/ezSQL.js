@@ -25,7 +25,7 @@
       for(var i = 0; i < attrArr.length; ++i) {
         condition = condition + attrArr[i] + '=\'' + valueArr[i] +'\'';
         if(i < attrArr.length - 1) {
-           condition += '+AND+'
+           condition += '+AND+';
         }
       }
 
@@ -99,7 +99,7 @@
             resolve(false);
           });
         }
-      })
+      });
     }
 
     // attrArr and tableArr should be Arrays
