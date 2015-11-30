@@ -1,23 +1,25 @@
-<div class="container" id="login">
-  <div class="profile">
-    <button class="profile__avatar" id="toggleProfile">
-     <img src="../images/Logo_Gray.png" alt="Avatar" />
-    </button>
-    <div class="profile__form">
-      <div class="profile__fields">
-        <div class="field">
-          <input ng-model="username" type="text" id="fieldUser" class="input" required pattern=.*\S.* />
-          <label for="fieldUser" class="label">Username</label>
+<div id="login">
+  <div class="login-container">
+    <div class="profile">
+      <button class="profile__avatar" id="toggleProfile">
+       <img src="../images/Logo_Gray.png" alt="Avatar" />
+      </button>
+      <div class="profile__form">
+        <div class="profile__fields">
+          <div class="field">
+            <input ng-model="username" type="text" id="fieldUser" class="input" required pattern=.*\S.* />
+            <label for="fieldUser" class="label">Username</label>
+          </div>
+          <div class="field">
+            <input ng-model="password" type="password" id="fieldPassword" class="input" required pattern=.*\S.* />
+            <label for="fieldPassword" class="label">Password</label>
+          </div>
+          <div class="profile__footer">
+            <button class="btn-login login" ng-click="loginAttempt()">Login</button>
+            <button class="btn-login right-btn login" ng-click="register()">Register</button>
+          </div>
         </div>
-        <div class="field">
-          <input ng-model="password" type="password" id="fieldPassword" class="input" required pattern=.*\S.* />
-          <label for="fieldPassword" class="label">Password</label>
-        </div>
-        <div class="profile__footer">
-          <button class="btn-login login" ng-click="loginAttempt()">Login</button>
-          <button class="btn-login right-btn login" ng-click="register()">Register</button>
-        </div>
-      </div>
-     </div>
+       </div>
+    </div>
   </div>
 </div>

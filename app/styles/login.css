@@ -3,7 +3,7 @@
   box-sizing: border-box;
 }
 
-.container img {
+.login-container img {
   vertical-align: middle;
   max-width: 100%;
 }
@@ -14,7 +14,7 @@
 }
 
 /* Container */
-.container {
+.login-container {
   position: absolute;
   width: 24em;
   left: 50%;

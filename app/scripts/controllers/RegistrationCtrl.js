@@ -31,9 +31,29 @@
         lastName: '',
       };
 
-      // TODO Add transitionModalNext and transitionModalPrev that transitions between
-      // fieldsets upon passing validation.
+      /**
+       * Navigates the user back to the login screen.
+       * @return {void}
+       */
+      function backToLogin() {
+        $timeout(function() {
+          $location.path('/');
+        }, 300);
+      }
 
+      /**
+       * Submits a registration attempt and navigates the user to the profile
+       * page.
+       * If the new user is of 'userType' user:
+       * - A new 'Person' tuple will be created
+       * - Their interests will be updated in the 'Looks' table and new tuples
+       *   will be inserted in the 'Interest' table if their interests DNE.
+       * If the new user is of 'userType' group:
+       * - A new 'Organization' tuple will be created
+       * - Their interests will be updated in the 'Relates' table and new tuples
+       *   will be inserted in the 'Interest' table if their interests DNE.
+       * @return {void}
+       */
       function submitRegistration() {
         var table, attrArr, valueArr;
 
@@ -88,6 +108,8 @@
         }, 300);
       }
 
+      // ===== Scoped Functions =====
+      $scope.backToLogin = backToLogin;
       $scope.submitRegistration = submitRegistration;
 
       //jQuery time
