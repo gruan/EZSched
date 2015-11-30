@@ -9,9 +9,9 @@
   angular.module('EZSched')
     .factory('ezUserData', ezUserData);
 
-  ezUserData.$inject = ['$q', 'ezSQL'];
+  ezUserData.$inject = ['$q', 'ezSQL', 'ezTimeConverter'];
 
-  function ezUserData($q, ezSQL) {
+  function ezUserData($q, ezSQL, ezTimeConverter) {
     var userName = 'admin';
     var interests = [];
     var courses = [];
@@ -46,6 +46,10 @@
         });
       },
       /* ====== Queries ===== */
+      /**
+       * Gets the alias of the user from the 'Person' or 'Organization' table.
+       * @return {string} A string of the user's alias.
+       */
       getAlias: function() {
         var attrArr, tableArr, condition;
         if(userType === 'user') {
@@ -151,6 +155,11 @@
 
         ezSQL.updateQuery(table, attrArr, valueArr, condition);
       },
+      /**
+       * Gets the interests of a 'user' from the 'Looks' table or the
+       * interests of a 'group' from the 'Relates' table.
+       * @return {[Interest Tuple JSON]} An array of 'Interest' tuples in JSON format
+       */
       getInterests: function() { // Returns an array of interests
         var attrArr, tableArr, condition;
         if(userType === 'user') {
@@ -171,6 +180,10 @@
           });
         });
       },
+      /**
+       * Gets the courses for a user of 'userType' user
+       * @return {[Course Tuple JSON]} An array of 'Course' tuples in JSON format
+       */
       getCourses: function() {
         var attrArr = ['CourseID'];
         var tableArr = ['Takes'];
@@ -183,6 +196,10 @@
           });
         });
       },
+      /**
+       * Gets the events for a user of 'userType' group
+       * @return {[Event Tuple JSON]} An array of 'Event' tuples in JSON format
+       */
       getEvents: function() {
         //TODO User version
         var attrArr = ['EventName', 'GroupID', 'ScheduleTimes'];
@@ -194,8 +211,53 @@
             resolve(result);
           });
         });
+      },
+      /**
+       * Generates the weekly schedule of the user.
+       * @param {string} userID The UserID of the suer.
+       * @return {Promise} A promise which resolves a string 168 char string
+       * containing the person's weekly schedule
+       */
+      getWeeklySchedule: function(userID) {
+        var attrArr, tableArr, condition;
+        attrArr = ['ScheduleTimes'];
+        tableArr = ['Person', 'Takes', 'Course'];
+        condition = 'Person.UserID=\'' + userID + '\'+AND+' +
+            'Person.UserID=Takes.UserID' + '+AND+' +
+            'Takes.CourseID = Course.CourseID';
+        return ezSQL.getQuery(attrArr, tableArr, condition)
+          .then(courseDayTimesToWeeklySchedule);
       }
     };
+
+    /* ===== Helper Functions ===== */
+    /**
+     * Converts an array of course times in day format to a combined
+     * weekly schedule.
+     * @param  {[strings]} courseDayTimes Array of schedule day format strings.
+     * @return {Promise}  A promise containing a string with a person's weekly schedule
+     */
+    function courseDayTimesToWeeklySchedule(courseDayTimes) {
+      console.log(courseDayTimes);
+      var weeklySchedule = [];
+      var i, j;
+      for(i = 0; i < 24 * 7; ++i) {
+        weeklySchedule.push('0');
+      }
+      var courseWeekTime = '';
+      for(i = 0; i < courseDayTimes.length; ++i) {
+        courseWeekTime = ezTimeConverter.dayToWeek(courseDayTimes[i].ScheduleTimes);
+        for(j = 0; j < courseWeekTime.length; ++j) {
+          if(courseWeekTime[j] === '1') {
+            weeklySchedule[j] = '1';
+          }
+        }
+      }
+      weeklySchedule = weeklySchedule.join('');
+      return $q(function(resolve) {
+        resolve(weeklySchedule);
+      });
+    }
 
     return ezUserDataObj;
   }
