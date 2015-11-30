@@ -23,8 +23,12 @@
           templateUrl: 'views/profile.html',
           controller: 'ProfileCtrl'
         })
+        .when('/settings', {
+          templateUrl: 'views/settings.html',
+          controller: 'SettingsCtrl'
+        })
         .when('/404', {
-          templateUrl: '404.html'
+          templateUrl: '404.html',
         })
         .otherwise({
           redirectTo: '/404'

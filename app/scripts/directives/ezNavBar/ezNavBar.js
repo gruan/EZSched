@@ -1,13 +1,11 @@
 /**
- * Created by George Ruan on August 21, 2015.
+ * Created by George Ruan on November 20, 2015.
  *
- * grNavBar defines the navigation bar appearance and functionality.
+ * ezNavBar defines the navigation bar appearance and functionality.
  *
- * To use: Put the directive into the html file.
+ * To use: Put the directive into the html file at the top of each page.
  *
  * Ex. <gr-nav-bar></gr-nav-bar>
- *
- * This will create a navigation bar with slide in and out functionality.
  */
 
 (function() {
