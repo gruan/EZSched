@@ -223,17 +223,19 @@
        * @return {void}
        */
       function deleteEvent(eventArg) {
-        console.log(eventArg);
-        var table, condition;
+        //console.log(eventArg);
+        var table, condition, eventTime;
         table = 'Event';
-        condition = 'GroupID=\'' + $scope.userName + '\'+AND+' + 'EventName=\'' + eventArg.EventName + '\'';
+        eventTime = ezTimeConverter.readableToDay(eventArg.ScheduleTimes);
+        condition = 'EventName=\'' + eventArg.EventName + '\'+AND+' +
+            'GroupID=\'' + $scope.userName + '\'+AND+' +
+            'ScheduleTimes=\'' + eventTime + '\'';
         ezSQL.deleteQuery(table, condition).then(function(/* success */) {
           getEvents();
         });
 
         // Remove all of the deleted 'events' from the 'Attends' table.
         table = 'Attends';
-        var eventTime = ezTimeConverter.readableToDay(eventArg.ScheduleTimes);
         condition = 'EventName=\'' + eventArg.EventName + '\'+AND+' +
                     'GroupID=\'' + eventArg.GroupID + '\'+AND+' + 'ScheduleTimes=\'' + eventTime + '\'';
         ezSQL.deleteQuery(table, condition).then(function(/* success */) {
@@ -241,43 +243,22 @@
         });
       }
 
-
-      // TODO Change this update feature. It shouldn't be here.
-      //  ezSQL.updateQuery('Event', ['EventName'], ['NOBE Meeting'], 'GroupID=\'nobe\'');
-      //TODO Add update function here
+      /**
+       * Adds the specified event to the 'Event' table in the database
+       * @return {void}
+       */
       function addEvent() {
         var table, attrArr, time, valueArr;
+        time = $scope.formData.event.day + $scope.formData.event.hour;
 
-        // TODO var success = ezSQL.getQuery()
         table = ['Event'];
-        attrArr = ['EventName'];
-        valueArr = [$scope.formData.event.name];
-        ezSQL.tupleExists(table, attrArr, valueArr).then(function(tupleExists) {
-          table = 'Event';
-          time = $scope.formData.event.day + $scope.formData.event.hour;
-          //console.log(tupleExists);
-          // Tuple already in table
-          if(tupleExists) {
-            attrArr = ['ScheduleTimes'];
-            valueArr = [time];
-            var condition = 'EventName=\'' + $scope.formData.event.name + '\'';
-            ezSQL.updateQuery(table, attrArr, valueArr, condition).then(function(/* success */) {
-              $scope.formData.event.name = '';
-              $scope.formData.event.day = '';
-              $scope.formData.event.hour = '';
-              getEvents();
-            });
-          } else {
-            attrArr = ['GroupID', 'EventName', 'ScheduleTimes'];
-            valueArr = [$scope.userName, $scope.formData.event.name, time];
-
-            ezSQL.insertQuery(table, attrArr, valueArr).then(function(/* success */) {
-              $scope.formData.event.name = '';
-              $scope.formData.event.day = '';
-              $scope.formData.event.hour = '';
-              getEvents();
-            });
-          }
+        attrArr = ['EventName', 'GroupID', 'ScheduleTimes'];
+        valueArr = [$scope.formData.event.name, $scope.userName, time];
+        ezSQL.insertQuery(table, attrArr, valueArr).then(function(/* success */) {
+          $scope.formData.event.name = '';
+          $scope.formData.event.day = '';
+          $scope.formData.event.hour = '';
+          getEvents();
         });
       }
 
