@@ -118,7 +118,7 @@
           }
 
           //console.log($scope.eventsReadable);
-          console.log($scope.events);
+          //console.log($scope.events);
         });
 
       }

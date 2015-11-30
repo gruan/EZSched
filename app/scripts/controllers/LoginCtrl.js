@@ -24,7 +24,7 @@
         var table = ['Person'];
         var condition = 'UserID=\'' + $scope.username + '\'+AND+UserPassword=\''+ $scope.password + '\'';
         ezSQL.getQuery(attrArr, table, condition).then(function(result) {
-          console.log(result);
+          //console.log(result);
           if(result.length !== 0) { // Succeeded log in
             console.log('Succeed Login');
             ezUserData.setUserName($scope.username);

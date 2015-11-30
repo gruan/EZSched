@@ -178,7 +178,7 @@
         return ezSQL.getQuery(attrArr, tableArr, condition).then(function(result) {
           return $q(function(resolve) {
             courses = result;
-            console.log(result);
+            //console.log(result);
             resolve(result);
           });
         });
