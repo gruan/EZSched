@@ -3,8 +3,8 @@
  *
  * Service that generates schedules for us.
  * Time is stored in two formats:
- *  1. [DAY FORMAT] String of one 4 groups of 8 bits. The first group denotes each day of
- *  the week, in MTWRFSU order. The 8th bit is 0 and acts as a placeholder.
+ *  1. [DAY FORMAT] String of 4 groups of 8 chars representing bits.
+ *  The first group denotes each day of the week, in MTWRFSU order. The 8th bit is 0 and acts as a placeholder.
  *  The other 3 groups of 8 bits represents each hour of the day. Starting at 0:00 and going to 23:00.
  *  i.e. Monday at 2AM is 10000000 00100000 00000000 00000000
  *  2. [WEEK FORMAT] String of seven 24 bit substrings, where each bit is an hour of the day. Substrings in order
@@ -108,7 +108,8 @@
         return str;
       },
       /**
-       * Converts a readable string to day (format 1)
+       * Converts a readable string to day (format 1).
+       * Note: Only works for EVENTS
        * @param  {string} readableTime A string in a human readable date format
        * @return {string} The day (format 1) string conversion.
        */

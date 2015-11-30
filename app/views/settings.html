@@ -1,0 +1,51 @@
+<div id="profile" class="page-top">
+  <ez-nav-bar></ez-nav-bar>
+  <!-- TITLE -->
+  <div class="jumbotron text-center">
+    <h1>Settings</h1>
+  </div>
+
+  <div id="settings-form">
+    <div class="col-sm-8 col-sm-offset-2 text-center">
+      <form class="form-horizontal">
+        <div class="form-group form-group-lg" ng-if="userType === 'user'">
+          <div class="small-margin-top">
+              <label class=for="user-id">Username</label>
+              <input id="user-id" type="text" class="form-control input-lg text-center" ng-model="formData.username">
+          </div>
+          <div class="small-margin-top">
+              <label for="user-id">First Name</label>
+              <input id="first-name" type="text" class="form-control input-lg text-center" ng-model="formData.firstName">
+          </div>
+
+          <div class="small-margin-top">
+              <label for="last-name">Last Name</label>
+              <input id="last-name" type="text" class="form-control input-lg text-center" ng-model="formData.lastName">
+          </div>
+          <div class="small-margin-top">
+              <label for="user-password">Password</label>
+              <input id="user-password" type="text" class="form-control input-lg text-center" placeholder='************' ng-model="formData.password">
+          </div>
+        </div>
+
+        <div class="form-group" ng-if="userType === 'group'">
+            <div class="small-margin-top">
+                <label for="group-id">Username</label>
+                <input id="group-id" type="text" class="form-control input-lg text-center" ng-model="formData.username">
+            </div>
+            <div class="small-margin-top">
+                <label for="group-name">Group Name</label>
+                <input id="group-name" type="text" class="form-control input-lg text-center" ng-model="formData.groupName">
+            </div>
+            <div class="small-margin-top">
+                <label for="group-password">Password</label>
+                <input id="group-password" type="text" class="form-control input-lg text-center" placeholder='************' ng-model="formData.password">
+            </div>
+        </div>
+
+        <button ng-show="userType==='user'" type="submit" class="btn-login small-margin-top" ng-click="submitUserChanges()">Submit Changes</button>
+        <button ng-show="userType==='group'" type="submit" class="btn-login small-margin-top" ng-click="submitGroupChanges()">Submit Changes</button>
+      </form>
+    </div>
+  </div>
+</div>

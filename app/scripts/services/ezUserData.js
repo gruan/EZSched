@@ -22,6 +22,7 @@
     var userType ='group';
 
     var ezUserDataObj = {
+      /* ====== Cached ====== */
       getUserType: function() {
         return $q(function(resolve) {
           resolve(userType);
@@ -44,26 +45,7 @@
           resolve(userName);
         });
       },
-      getInterests: function() { // Returns an array of interests
-        var attrArr, tableArr, condition;
-        if(userType === 'user') {
-          attrArr = ['Interest'];
-          tableArr =['Looks'];
-          condition = 'UserID=\'' + userName +'\'';
-        }
-        else { // Group
-          attrArr = ['Interest'];
-          tableArr = ['Relates'];
-          condition = 'GroupID=\'' + userName + '\'';
-        }
-        return ezSQL.getQuery(attrArr, tableArr, condition).then(function(result) {
-          return $q(function(resolve) {
-            interests = result;
-            resolve(result);
-            //console.log(result);
-          });
-        });
-      },
+      /* ====== Queries ===== */
       getAlias: function() {
         var attrArr, tableArr, condition;
         if(userType === 'user') {
@@ -89,6 +71,47 @@
             });
           });
         }
+      },
+      /**
+       * Updates the 'FirstName' in the 'Person' tuple or
+       * 'GroupName' in the 'Organization' tuple specified by 'userType'
+       * @param  {string} firstName The new alias
+       * @return {void}
+       */
+      setAlias: function(alias) {
+        var table, attrArr, valueArr, condition;
+        valueArr = [alias];
+        if(userType === 'user') { // User
+          table = 'Person';
+          attrArr = ['FirstName']
+          condition = 'UserID=\'' + username + '\'';
+        }
+        else {  // Group
+          table = 'Organization';
+          attrArr = ['GroupName'];
+          condition = 'GroupID=\'' + username + '\'';
+        }
+        ezSql.updateQuery(table, attrArr, valueArr, condition);
+      },
+      getInterests: function() { // Returns an array of interests
+        var attrArr, tableArr, condition;
+        if(userType === 'user') {
+          attrArr = ['Interest'];
+          tableArr =['Looks'];
+          condition = 'UserID=\'' + userName +'\'';
+        }
+        else { // Group
+          attrArr = ['Interest'];
+          tableArr = ['Relates'];
+          condition = 'GroupID=\'' + userName + '\'';
+        }
+        return ezSQL.getQuery(attrArr, tableArr, condition).then(function(result) {
+          return $q(function(resolve) {
+            interests = result;
+            resolve(result);
+            //console.log(result);
+          });
+        });
       },
       getCourses: function() {
         var attrArr = ['CourseID'];

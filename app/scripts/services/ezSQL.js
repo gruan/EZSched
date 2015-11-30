@@ -159,7 +159,7 @@
       var query = query_path + '?query=UPDATE+' + table + '+SET+' +
                   exprStr + '+WHERE+' + condition;
 
-      //console.log(query);
+      console.log(query);
 
       return $http({ method: 'GET',
               url: query
