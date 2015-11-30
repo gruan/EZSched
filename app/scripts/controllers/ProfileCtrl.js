@@ -58,30 +58,52 @@
         });
       }
 
+      /**
+       * Gets the userName of the user. Note: This is the username used in the
+       * database and not what the user is referred by.
+       * @return {void}
+       */
       function getUserName() {
         ezUserData.getUserName().then(function(name) {
           $scope.userName = name;
         });
       }
 
+      /**
+       * Gets the alias of the user. This is what will be used
+       * to refer to the user in the front-facing application.
+       * @return {void}
+       */
       function getAlias() {
         ezUserData.getAlias().then(function(name) {
           $scope.alias = name;
         });
       }
 
+      /**
+       * Gets the interests of the user.
+       * @return {void}
+       */
       function getInterests() {
         ezUserData.getInterests().then(function(interests) {
           $scope.interests = interests;
         });
       }
 
+      /**
+       * Gets the courses of the user
+       * @return {void}
+       */
       function getCourses() {
         ezUserData.getCourses().then(function(courses) {
           $scope.courses = courses;
         });
       }
 
+      /**
+       * Gets the events hosted by the user
+       * @return {void}
+       */
       function getEvents() {
         ezUserData.getEvents().then(function(retrievedEvents) {
           //console.log(retrievedEvents);
@@ -90,12 +112,13 @@
           for(var i = 0; i < $scope.events.length; ++i) {
             $scope.eventsReadable.push({
               EventName: $scope.events[i].EventName,
+              GroupID: $scope.events[i].GroupID,
               ScheduleTimes: ezTimeConverter.dayToReadable($scope.events[i].ScheduleTimes)
             });
           }
 
           //console.log($scope.eventsReadable);
-          //console.log($scope.events);
+          console.log($scope.events);
         });
 
       }
@@ -193,11 +216,14 @@
 
       /**
        * Deletes the specified event from the event table. This will be done from
-       * the group 'userType'
+       * the group 'userType'.
+       * In addition, if there are any 'Person's who 'Attend' the 'eventArg', the
+       * tuple in 'Attend' will be deleted
        * @param  {Event JSON Obj} eventArg Tuple from Event table in database
        * @return {void}
        */
       function deleteEvent(eventArg) {
+        console.log(eventArg);
         var table, condition;
         table = 'Event';
         condition = 'GroupID=\'' + $scope.userName + '\'+AND+' + 'EventName=\'' + eventArg.EventName + '\'';
@@ -205,10 +231,18 @@
           getEvents();
         });
 
+        // Remove all of the deleted 'events' from the 'Attends' table.
         table = 'Attends';
-        //condition = 'EventID=\'' +
+        var eventTime = ezTimeConverter.readableToDay(eventArg.ScheduleTimes);
+        condition = 'EventName=\'' + eventArg.EventName + '\'+AND+' +
+                    'GroupID=\'' + eventArg.GroupID + '\'+AND+' + 'ScheduleTimes=\'' + eventTime + '\'';
+        ezSQL.deleteQuery(table, condition).then(function(/* success */) {
+          // Do nothing
+        });
       }
 
+
+      // TODO Change this update feature. It shouldn't be here.
       //  ezSQL.updateQuery('Event', ['EventName'], ['NOBE Meeting'], 'GroupID=\'nobe\'');
       //TODO Add update function here
       function addEvent() {
@@ -216,7 +250,7 @@
 
         // TODO var success = ezSQL.getQuery()
         table = ['Event'];
-        attrArr = ['EventName'],
+        attrArr = ['EventName'];
         valueArr = [$scope.formData.event.name];
         ezSQL.tupleExists(table, attrArr, valueArr).then(function(tupleExists) {
           table = 'Event';
@@ -245,18 +279,19 @@
             });
           }
         });
-
-
-
-
       }
 
+      /**
+       * Generate a list of potential events to attend for the user.
+       * @return {void}
+       */
       function generateEvents() {
         ezScheduleGenerator.generateEvents().then(function(eventsArr) {
           $scope.hardcodedEvents = eventsArr;
         });
       }
 
+      // ====== Scoped Functions ======
       $scope.deleteInterest = deleteInterest;
       $scope.addInterest = addInterest;
       $scope.deleteCourse = deleteCourse;

@@ -3,11 +3,11 @@
  *
  * Service that generates schedules for us.
  * Time is stored in two formats:
- *  1. String of one 4 groups of 8 bits. The first group denotes each day of
+ *  1. [DAY FORMAT] String of one 4 groups of 8 bits. The first group denotes each day of
  *  the week, in MTWRFSU order. The 8th bit is 0 and acts as a placeholder.
  *  The other 3 groups of 8 bits represents each hour of the day. Starting at 0:00 and going to 23:00.
  *  i.e. Monday at 2AM is 10000000 00100000 00000000 00000000
- *  2. String of seven 24 bit substrings, where each bit is an hour of the day. Substrings in order
+ *  2. [WEEK FORMAT] String of seven 24 bit substrings, where each bit is an hour of the day. Substrings in order
  *  MTWRFSU.
  */
 
@@ -42,13 +42,20 @@
         time = time.join('');
         return time;
       },
+
       // Converts day (format 1) to readable format Day Time(AM/PM)
       // @param time is 32 bit char array in format 1 above.
       // @return string that is readable.
+      /**
+       * Converts the day (format 1) to a readable format Day Time AM/PM
+       * @param  {string} time Time is a 32 char array with only 1's and 0's.
+       * See format 1 above for more details
+       * @return {string} The human readable string of the date in format
+       * Day Time AM/PM
+       */
       dayToReadable: function(time) {
         //console.log("dayToReadable %s", time);
         var str = [];
-        // Determine the string of the day
         if(time[0] === '1') {
         	str.push('Mon');
         }
@@ -71,8 +78,6 @@
         	str.push('Sun');
         }
         str.push(' ');
-        // Determine the time. i needs to be offset by 8 bits that represent
-        // the day of the week
         for(var i = 0; i < 24; ++i) {
         	if(time[i+8] === '1') {
         		var p = i;
@@ -101,8 +106,94 @@
         str = str.join('');
         //console.log(str);
         return str;
-      }
-    };
+      },
+      /**
+       * Converts a readable string to day (format 1)
+       * @param  {string} readableTime A string in a human readable date format
+       * @return {string} The day (format 1) string conversion.
+       */
+      readableToDay: function(readableTime) {
+        var retval = [];
+        var tempArr = readableTime.split(' ');
+        var day = tempArr[0];
+        var time = tempArr[1];
+        var halfOfDay = tempArr[2];
+
+        switch(day) {
+          case 'Mon':
+            retval.push('10000000');
+            break;
+          case 'Tue':
+            retval.push('01000000');
+            break;
+          case 'Wed':
+            retval.push('00100000');
+            break;
+          case 'Thu':
+            retval.push('00010000');
+            break;
+          case 'Fri':
+            retval.push('00001000');
+            break;
+          case 'Sat':
+            retval.push('00000100');
+            break;
+          case 'Sun':
+            retval.push('00000010');
+            break;
+        }
+
+        if(halfOfDay === 'PM') {
+          retval.push('000000000000');
+        }
+
+        switch(time) {
+          case '12':
+            retval.push('100000000000');
+            break;
+          case '1':
+            retval.push('010000000000');
+            break;
+          case '2':
+            retval.push('001000000000');
+            break;
+          case '3':
+            retval.push('000100000000');
+            break;
+          case '4':
+            retval.push('000010000000');
+            break;
+          case '5':
+            retval.push('000001000000');
+            break;
+          case '6':
+            retval.push('000000100000');
+            break;
+          case '7':
+            retval.push('000000010000');
+            break;
+          case '8':
+            retval.push('000000001000');
+            break;
+          case '9':
+            retval.push('000000000100');
+            break;
+          case '10':
+            retval.push('000000000010');
+            break;
+          case '11':
+            retval.push('000000000001');
+            break;
+        }
+
+        if(halfOfDay === 'AM') {
+          retval.push('000000000000');
+        }
+
+        retval = retval.join('');
+        return retval;
+    }
+  };
 
     return ezTimeConverterObj;
   }

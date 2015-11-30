@@ -104,7 +104,7 @@
       },
       getEvents: function() {
         //TODO User version
-        var attrArr = ['EventName', 'ScheduleTimes'];
+        var attrArr = ['EventName', 'GroupID', 'ScheduleTimes'];
         var tableArr = ['Event'];
         var condition = 'GroupID=\'' + userName + '\'';
         return ezSQL.getQuery(attrArr, tableArr, condition).then(function(result) {
