@@ -30,7 +30,13 @@
     return directive;
 
     function link(scope) {
+      function scrollToTop() {
+        angular.element('html, body').animate({
+          scrollTop: 0
+        }, 'slow');
+      }
 
+      scope.scrollToTop = scrollToTop;
     }
   }
 })();
