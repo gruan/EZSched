@@ -5,13 +5,13 @@
     <h1>Settings</h1>
   </div>
 
-  <div id="settings-form">
+  <div class="row" id="settings-form">
     <div class="col-sm-8 col-sm-offset-2 text-center">
       <form class="form-horizontal">
         <div class="form-group form-group-lg" ng-if="userType === 'user'">
           <div class="small-margin-top">
               <label class=for="user-id">Username</label>
-              <input id="user-id" type="text" class="form-control input-lg text-center" ng-model="formData.username">
+              <input id="user-id" type="text" class="form-control input-lg text-center" ng-model="formData.username" disabled>
           </div>
           <div class="small-margin-top">
               <label for="user-id">First Name</label>
@@ -31,7 +31,7 @@
         <div class="form-group" ng-if="userType === 'group'">
             <div class="small-margin-top">
                 <label for="group-id">Username</label>
-                <input id="group-id" type="text" class="form-control input-lg text-center" ng-model="formData.username">
+                <input id="group-id" type="text" class="form-control input-lg text-center" ng-model="formData.username" disabled>
             </div>
             <div class="small-margin-top">
                 <label for="group-name">Group Name</label>
@@ -47,5 +47,9 @@
         <button ng-show="userType==='group'" type="submit" class="btn-login small-margin-top" ng-click="submitGroupChanges()">Submit Changes</button>
       </form>
     </div>
+  </div>
+
+  <div class="row text-center small-margin-top"  ng-show="submitted">
+    <h2>Changes Submitted!</h2>
   </div>
 </div>

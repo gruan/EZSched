@@ -83,15 +83,73 @@
         valueArr = [alias];
         if(userType === 'user') { // User
           table = 'Person';
-          attrArr = ['FirstName']
-          condition = 'UserID=\'' + username + '\'';
+          attrArr = ['FirstName'];
+          condition = 'UserID=\'' + userName + '\'';
         }
         else {  // Group
           table = 'Organization';
           attrArr = ['GroupName'];
-          condition = 'GroupID=\'' + username + '\'';
+          condition = 'GroupID=\'' + userName + '\'';
         }
-        ezSql.updateQuery(table, attrArr, valueArr, condition);
+        ezSQL.updateQuery(table, attrArr, valueArr, condition);
+      },
+      /**
+       * Returns a promise of the 'LastName' in the 'Person' tuple.
+       * If 'userType' is group, then undefined is returned
+       * @return {Promise} A promise with the resolved value being the
+       * 'LastName' in the 'Person' tuple
+       */
+      getLastName: function() {
+        // Return undefined if 'userType' is group
+        if(userType === 'group') {
+          return $q(function(resolve) {
+            resolve(undefined);
+          });
+        }
+
+        // 'userType' must be user
+        var attrArr = ['LastName'];
+        var tableArr = ['Person'];
+        var condition = 'UserID=\'' + userName + '\'';
+        return ezSQL.getQuery(attrArr, tableArr, condition).then(function(result){
+          return $q(function(resolve) {
+            resolve(result[0].LastName);
+          });
+        });
+      },
+      /**
+       * Updates the 'LastName' in the 'Person' tuple in the database
+       * @param  {string} firstName The new alias
+       * @return {void}
+       */
+      setLastName: function(lastName) {
+        var table = 'Person';
+        var attrArr = ['LastName'];
+        var valueArr = [lastName];
+        var condition = 'UserID=\'' + userName + '\'';
+        ezSQL.updateQuery(table, attrArr, valueArr, condition);
+      },
+      /**
+       * Updates the 'UserPassword' in the 'Person' tuple or
+       * the 'GroupPassword' in the 'Organization' tuple in the database.
+       * @param  {string} password The new password
+       * @return {void}
+       */
+      setPassword: function(password) {
+        var table, attrArr, valueArr, condition;
+        valueArr = [password];
+        if(userType === 'user') { // User
+          table = 'Person';
+          attrArr = ['UserPassword'];
+          condition = 'UserID=\'' + userName + '\'';
+        }
+        else {  // Group
+          table = 'Organization';
+          attrArr = ['GroupPassword'];
+          condition = 'GroupID=\'' + userName + '\'';
+        }
+
+        ezSQL.updateQuery(table, attrArr, valueArr, condition);
       },
       getInterests: function() { // Returns an array of interests
         var attrArr, tableArr, condition;
