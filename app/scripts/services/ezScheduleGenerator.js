@@ -14,9 +14,9 @@
   angular.module('EZSched')
     .factory('ezScheduleGenerator', ezScheduleGenerator);
 
-  ezScheduleGenerator.$inject = ['$q', 'ezSQL'];
+  ezScheduleGenerator.$inject = ['$q', 'ezSQL', 'ezTimeConverter'];
 
-  function ezScheduleGenerator($q, ezSQL) {
+  function ezScheduleGenerator($q, ezSQL, ezTimeConverter) {
 
     var randomBank = [
       {
@@ -96,8 +96,67 @@
         return $q(function(resolve) {
           resolve(result);
         });
+      },
+      /**
+       * Generates the suggested events for a user of 'userType' user
+       * @param {string} userID The UserID of the user.
+       * @return {Promise} A promise which resolves an array of events.
+       */
+      generateRealEvents: function(userID) {
+        return getWeeklySchedule(userID).then(function(weeklySchedule) {
+          console.log(weeklySchedule);
+        });
       }
     };
+
+    // ====== Helper Functions =======
+
+    /**
+     * Converts an array of course times in day format to a combined
+     * weekly schedule.
+     * @param  {[strings]} courseDayTimes Array of schedule day format strings.
+     * @return {Promise}  A promise containing a string with a person's weekly schedule
+     */
+    function courseDayTimesToWeeklySchedule(courseDayTimes) {
+      console.log(courseDayTimes);
+      var weeklySchedule = [];
+      var i, j;
+      for(i = 0; i < 24 * 7; ++i) {
+        weeklySchedule.push('0');
+      }
+      var courseWeekTime = '';
+      for(i = 0; i < courseDayTimes.length; ++i) {
+        courseWeekTime = ezTimeConverter.dayToWeek(courseDayTimes[i].ScheduleTimes);
+        for(j = 0; j < courseWeekTime.length; ++j) {
+          if(courseWeekTime[j] === '1') {
+            weeklySchedule[j] = '1';
+          }
+        }
+      }
+
+      weeklySchedule = weeklySchedule.join('');
+
+      return $q(function(resolve) {
+        resolve(weeklySchedule);
+      });
+    }
+
+    /**
+     * Generates the weekly schedule of the user.
+     * @param {string} userID The UserID of the suer.
+     * @return {Promise} A promise which resolves a string 168 char string
+     * containing the person's weekly schedule
+     */
+    function getWeeklySchedule(userID) {
+      var attrArr, tableArr, condition;
+      attrArr = ['ScheduleTimes'];
+      tableArr = ['Person', 'Takes', 'Course'];
+      condition = 'Person.UserID=\'' + userID + '\'+AND+' +
+          'Person.UserID=Takes.UserID' + '+AND+' +
+          'Takes.CourseID = Course.CourseID';
+      return ezSQL.getQuery(attrArr, tableArr, condition)
+        .then(courseDayTimesToWeeklySchedule);
+    }
 
     return ezScheduleGeneratorObj;
   }

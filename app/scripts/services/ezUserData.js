@@ -12,14 +12,14 @@
   ezUserData.$inject = ['$q', 'ezSQL'];
 
   function ezUserData($q, ezSQL) {
-    var userName = 'nobe';
+    var userName = 'admin';
     var interests = [];
     var courses = [];
     var events = [];
 
     // group if group
     // user if user
-    var userType ='group';
+    var userType ='user';
 
     var ezUserDataObj = {
       /* ====== Cached ====== */

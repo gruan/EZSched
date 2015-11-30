@@ -34,6 +34,10 @@
         //}
       };
 
+      // ===== TEST ======
+      console.log('TESTING!!!');
+      ezScheduleGenerator.generateRealEvents('admin');
+
       // ===== INITIALIZE ======
       getUserData();
 

@@ -28,7 +28,7 @@
         var time = [];
         var i;
         for(var d = 0; d < 7; ++d) {
-        	if(array[d] === 0) {
+        	if(array[d] === '0') {
         		for(i = 0; i < 24; ++i) {
         			time.push('0');
             }
