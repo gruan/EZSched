@@ -1,7 +1,23 @@
+/* ===== General ====== */
 .page-top {
   margin-top: 50px;
 }
 
+/* ===== Buttons ====== */
+.btn-vertical-middle {
+  margin: 20px 0 10px 0;
+}
+
+/* ===== Containers ====== */
+.small-bottom-container {
+  min-height: 200px;
+}
+
+.bottom-container {
+  min-height: 500px;
+}
+
+/* ===== Margins and Padding ====== */
 .small-margin-top {
   margin-top: 3%;
 }

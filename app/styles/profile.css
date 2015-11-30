@@ -1,31 +1,3 @@
-.btn-vertical-middle {
-  margin: 20px 0 10px 0;
-}
-
-.small-bottom-container {
-  min-height: 200px;
-}
-
-.bottom-container {
-  min-height: 500px;
-}
-
-#profile .small-margin-top {
-  margin-top: 3%;
-}
-
-#profile .medium-margin-top {
-  margin-top: 15%;
-}
-
-#profile .very-small-margin-top {
-  margin-top: 1%;
-}
-
-#profile .small-margin-bottom {
-  margin-bottom: 3%;
-}
-
 #interest-form {
   margin: 20px 0 10px 0;
 }
