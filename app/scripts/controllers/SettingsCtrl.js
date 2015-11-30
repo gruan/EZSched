@@ -140,6 +140,20 @@
       function setPassword(password) {
         ezUserData.setPassword(password);
       }
+
+      /**
+       * Shows a message for a few seconds indicating that the changes have
+       * been submitted
+       * @param {number} delay The duration in milliseconds that the message should
+       * be shown.
+       * @return {void}
+       */
+      function showSubmitted(delay) {
+        $scope.submitted = true;
+        $timeout(function() {
+          $scope.submitted = false;
+        }, delay);
+      }
       // ====== Scoped Functions =======
 
       $scope.submitUserChanges = submitUserChanges;
@@ -169,7 +183,7 @@
         }
 
         if(changes) {
-          showSubmitted();
+          showSubmitted(1000);
         }
       }
 
@@ -192,15 +206,8 @@
         }
 
         if(changes) {
-          showSubmitted();
+          showSubmitted(1000);
         }
-      }
-
-      function showSubmitted() {
-        $scope.submitted = true;
-        $timeout(function() {
-          $scope.submitted = false;
-        }, 1000);
       }
     }
 })();
