@@ -193,6 +193,43 @@
 
         retval = retval.join('');
         return retval;
+    },
+    /**
+     * Determines whether userSchedule (weekly format) and eventSchedule (weekly format)
+     * conflict with each other.
+     * Returns true if either weekly schedule is invalid
+     * @param  {string} userSchedule A 168 character array of the user's schedule in weekly format
+     * @param  {string} eventSchedule A 168 character array of the event's schedule in weekly format
+     * @return {Boolean} True if the schedules conflict.
+     * False if they don't conflict
+     */
+    weeklyTimesConflict: function(userSchedule, eventSchedule) {
+      // Check to make sure both are valid weeklySchedules.
+      // 24 * 7 is the number of characters in a TimeSchedule weekly format
+      if(userSchedule.length !== eventSchedule.length || userSchedule.length !== 24 * 7) {
+        return true;
+      }
+
+      // Check if eventSchedule is valid. That is, it is scheduled on some day
+      // and time.
+      var eventScheduleValid = false;
+      var i;
+      for(i = 0; i < eventSchedule.length; ++i) {
+        if(eventSchedule[i] === '1') {
+          eventScheduleValid = true;
+        }
+      }
+      if(!eventScheduleValid) {
+        return true;
+      }
+
+      // Check if the schedules conflict.
+      for(i = 0; i < userSchedule.length; ++i) {
+        if(userSchedule[i] === '1' && eventSchedule[i] === '1') {
+          return true;
+        }
+      }
+      return false;
     }
   };
 

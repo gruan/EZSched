@@ -238,7 +238,6 @@
      * @return {Promise}  A promise containing a string with a person's weekly schedule
      */
     function courseDayTimesToWeeklySchedule(courseDayTimes) {
-      console.log(courseDayTimes);
       var weeklySchedule = [];
       var i, j;
       for(i = 0; i < 24 * 7; ++i) {
