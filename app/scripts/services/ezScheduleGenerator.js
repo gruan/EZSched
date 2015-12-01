@@ -104,12 +104,31 @@
        */
       generateRealEvents: function(userID) {
         return ezUserData.getWeeklySchedule(userID).then(function(weeklySchedule) {
-          console.log(weeklySchedule);
+          //console.log(weeklySchedule);
+          getInterestingEvents(userID);
         });
       }
     };
 
     // ====== Helper Functions =======
+    /**
+     * Gets all events that coincide with the user's (specified by userID) interests
+     * @param  {string} userID The userID of the user
+     * @return {Promise} A promise containing all the events that coincide with
+     * the user's interests. The Promise contains an array of objects of the form
+     * {EventName, GroupName, ScheduleTimes}
+     */
+    function _getInterestingEvents(userID) {
+      var attrArr, tableArr, condition;
+      attrArr = ['EventName', 'GroupName', 'ScheduleTimes'];
+      tableArr = ['Person', 'Looks', 'Organization', 'Event', 'Relates'];
+      condition = 'Person.UserID=\'' + userID + '\'+AND+' +
+            'Person.UserID=Looks.UserID' + '+AND+' +
+            'Looks.Interest=Relates.Interest' + '+AND+' +
+            'Relates.GroupID=Organzation.GroupID' + '+AND+' +
+            'Organization.GroupID=Event.GroupID';
+      console.log(condition);
+    }
 
     return ezScheduleGeneratorObj;
   }

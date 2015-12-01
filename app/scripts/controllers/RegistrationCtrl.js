@@ -10,7 +10,7 @@
   angular.module('EZSched')
     .controller('RegistrationCtrl', RegistrationCtrl);
 
-    RegistrationCtrl.$inject = ['$scope', '$location', '$timeout', '$q', 'ezSQL', 'ezUserData'];
+    RegistrationCtrl.$inject = ['$scope', '$location', '$timeout', 'ezSQL', 'ezUserData'];
 
     function RegistrationCtrl ($scope, $location, $timeout, ezSQL, ezUserData) {
       $scope.input = {
