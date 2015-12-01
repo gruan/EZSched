@@ -74,15 +74,15 @@
         <button class="btn-login" ng-click="generateEvents()">Generate Schedule</button>
       </div>
       <div class="col-sm-12 text-center bottom-container">
-        <div class="row" ng-repeat="event in hardcodedEvents">
+        <div class="row" ng-repeat="event in suggestedEventsFormatted">
           <div class="col-sm-3 col-sm-offset-1 text-left">
-            <h2>{{event.eventTime}}</h2>
+            <h2>{{event.GroupName}}</h2>
           </div>
-          <div class="col-sm-5 text-left">
-            <h2>{{event.eventName}}</h2>
+          <div class="col-sm-4 text-left">
+            <h2>{{event.EventName}}</h2>
           </div>
-          <div class="col-sm-3">
-            <h2><a ng-href="{{event.eventLink}}" target="_blank">Link</a></h2>
+          <div class="col-sm-3 text-right">
+            <h2>{{event.ScheduleTimes}}</h2>
           </div>
         </div>
       </div>

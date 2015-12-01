@@ -17,97 +17,18 @@
   ezScheduleGenerator.$inject = ['$q', 'ezUserData', 'ezSQL', 'ezTimeConverter'];
 
   function ezScheduleGenerator($q, ezUserData, ezSQL, ezTimeConverter) {
-
-    var randomBank = [
-      {
-        eventTime: 'Mon 5PM',
-        eventName: 'NOBE Meeting',
-        eventLink: 'https://illinois.collegiatelink.net/organization/NOBE'
-      },
-      {
-        eventTime: 'Mon 7PM',
-        eventName: 'WebMonkeys Meeting',
-        eventLink: 'https://www-s.acm.illinois.edu/sigs/223'
-      },
-      {
-        eventTime: 'Mon 7PM',
-        eventName: 'SIGGRAPH Meeting',
-        eventLink: 'https://www-s.acm.illinois.edu/sigs/133'
-      },
-      {
-        eventTime: 'Tues 6PM',
-        eventName: 'OpenNSM Meeting',
-        eventLink: 'https://www-s.acm.illinois.edu/sigs/163'
-      },
-      {
-        eventTime: 'Tues 7PM',
-        eventName: 'Gamebuilders',
-        eventLink: 'https://www-s.acm.illinois.edu/sigs/23'
-      },
-      {
-        eventTime: 'Wed 5PM',
-        eventName: 'SIGCHI Meeting',
-        eventLink: 'https://www-s.acm.illinois.edu/sigs/83'
-      },
-      {
-        eventTime: 'Wed 7PM',
-        eventName: 'Chess Club Meeting1',
-        eventLink: 'https://illinois.collegiatelink.net/organization/illinichessclub'
-      },
-      {
-        eventTime: 'Thurs 6PM',
-        eventName: 'Ballroom Dancing',
-        eventLink: 'https://publish.illinois.edu/dancing/'
-      },
-      {
-        eventTime: 'Thurs 7PM',
-        eventName: 'Ballroom Dancing1',
-        eventLink: 'https://publish.illinois.edu/dancing/'
-      },
-      {
-        eventTime: 'Thurs 8PM',
-        eventName: 'Ballroom Dancing2',
-        eventLink: 'https://publish.illinois.edu/dancing/'
-      },
-      {
-        eventTime: 'Sun 6PM',
-        eventName: 'Chess Club Meeting2',
-        eventLink: 'https://illinois.collegiatelink.net/organization/illinichessclub'
-      },
-      {
-        eventTime: 'Sun 7PM',
-        eventName: 'Chess Club Meeting3',
-        eventLink: 'https://illinois.collegiatelink.net/organization/illinichessclub'
-      }
-    ];
-
     var ezScheduleGeneratorObj = {
-      generateEvents: function() {
-        var result = [];
-
-        for(var i = 0; i < randomBank.length; ++i) {
-          if(Math.random() > 0.50 && (i === 0 || randomBank[i].eventName !== randomBank[i-1].eventName)) {
-            result.push(randomBank[i]);
-            while(i+1 < randomBank.length && randomBank[i].eventName === randomBank[i+1].eventName) {
-              result.push(randomBank[++i]);
-            }
-          }
-        }
-        return $q(function(resolve) {
-          resolve(result);
-        });
-      },
       /**
        * Generates the suggested events for a user of 'userType' user
        * @param {string} userID The UserID of the user.
        * @return {Promise} A promise which resolves an array of events.
        */
-      generateRealEvents: function(userID) {
+      generateEvents: function(userID) {
         //TODO
         return ezUserData.getWeeklySchedule(userID).then(function(weeklySchedule) {
-          getInterestingEvents(userID).then(function(interestingEvents) {
+          return getInterestingEvents(userID).then(function(interestingEvents) {
             var suggestedEvents = filterConflictingEvents(interestingEvents, weeklySchedule);
-            suggestedEvents = chooseRandomEvents(suggestedEvents, 1);
+            suggestedEvents = chooseRandomEvents(suggestedEvents, 5);
 
             return $q(function(resolve) {
               resolve(suggestedEvents);
@@ -193,7 +114,6 @@
       var probability = avgNumPicked / arr.length,
           retVal = [],
           random, i;
-          console.log(probability);
       for( i = 0; i < arr.length; ++i ) {
         random = Math.random();
         if(random < probability) {

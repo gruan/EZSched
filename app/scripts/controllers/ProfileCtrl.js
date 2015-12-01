@@ -21,7 +21,8 @@
       //$scope.courses = [];
       //$scope.events = [];
       //$scope.eventsReadable = [];
-      $scope.hardcodedEvents = [];
+      $scope.suggestedEventsFormatted = [];
+      $scope.suggestedEventsRaw = [];
 
       // ng-model variables
       $scope.formData = {
@@ -33,10 +34,6 @@
           //time:
         //}
       };
-
-      // ===== TEST ======
-      console.log('TESTING!!!');
-      ezScheduleGenerator.generateRealEvents('admin');
 
       // ===== INITIALIZE ======
       getUserData();
@@ -271,8 +268,14 @@
        * @return {void}
        */
       function generateEvents() {
-        ezScheduleGenerator.generateEvents().then(function(eventsArr) {
-          $scope.hardcodedEvents = eventsArr;
+        ezScheduleGenerator.generateEvents($scope.userName).then(function(eventsArr) {
+          $scope.suggestedEventsRaw = eventsArr;
+          var i;
+          for( i = 0; i < eventsArr.length; ++i ) {
+            eventsArr[i].ScheduleTimes = ezTimeConverter.weekToDay(eventsArr[i].ScheduleTimes);
+            eventsArr[i].ScheduleTimes = ezTimeConverter.dayToReadable(eventsArr[i].ScheduleTimes);
+          }
+          $scope.suggestedEventsFormatted = eventsArr;
         });
       }
 

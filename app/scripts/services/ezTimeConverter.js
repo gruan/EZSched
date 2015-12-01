@@ -21,31 +21,78 @@
   function ezTimeConverter() {
 
     var ezTimeConverterObj = {
-      // Converts day (format 1) to week (format 2)
-      // @param array is 32 bit char array in format 1 above.
-      // @return Returns a 168 bit char array in format 2 above.
-      dayToWeek: function(array) {
+      /**
+       * Conerts day (format 1) to week (format 2)
+       * @param  {string} dayTime 32 char array in format 1 above.
+       * @return {string}       168 char array in format 2 above.
+       */
+      dayToWeek: function(dayTime) {
         var time = [];
         var i;
         for(var d = 0; d < 7; ++d) {
-        	if(array[d] === '0') {
+        	if(dayTime[d] === '0') {
         		for(i = 0; i < 24; ++i) {
         			time.push('0');
             }
         	}
         	else {
         		for(i = 8; i < 32; ++i) {
-        			time.push(array[i]);
+        			time.push(dayTime[i]);
             }
         	}
         }
         time = time.join('');
         return time;
       },
+      /**
+       * Converts week (format 2) to day (format 1).
+       * Note: The week format must have ONLY ONE HOUR OF TIME. i.e Mon 3 PM
+       * IT CANNOT OCCUPY MORE THAN ONE HOUR OF TIME.
+       * @param  {string} weekSchedule 168 char array in format 2 above.
+       * @return {string}              32 char array in format 1 above.
+       */
+      weekToDay: function(weekSchedule) {
+        // Sanity check the length of weeklySchedule.
+        if(weekSchedule.length !== 24 * 7) {
+          return undefined;
+        }
 
-      // Converts day (format 1) to readable format Day Time(AM/PM)
-      // @param time is 32 bit char array in format 1 above.
-      // @return string that is readable.
+        var time = [],
+            countTimes = 0,
+            i;
+        for( i = 0; i < weekSchedule.length; ++i ) {
+          if(weekSchedule[i] === '1') {
+            countTimes++;
+            if(countTimes > 1) {
+              return undefined;
+            }
+
+            var hour = i % 24;
+            var day = i / 24;
+
+            // Push on the chars that represent the day.
+            var j;
+            for( j = 0; j < day; ++j) {
+              time.push('0');
+            }
+            time.push('1');
+            for(; j < 8; ++j) { // 8 chars are used to represent the day
+              time.push('0');
+            }
+
+            // Push on the chars that represent the hours of the day.
+            for( j = 0; j < hour; ++j) {
+                time.push('0');
+            }
+            time.push('1');
+            for(; j < 24; ++j) {
+              time.push('0');
+            }
+          }
+        }
+        time = time.join('');
+        return time;
+      },
       /**
        * Converts the day (format 1) to a readable format Day Time AM/PM
        * @param  {string} time Time is a 32 char array with only 1's and 0's.
