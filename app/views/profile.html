@@ -1,4 +1,4 @@
-<div id="profile" class="page-top">
+<div id="profile" class="page-top medium-margin-bottom">
   <ez-nav-bar></ez-nav-bar>
   <!-- TITLE -->
   <div class="jumbotron text-center">
@@ -70,10 +70,10 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12 text-center very-small-margin-top">
+      <div class="col-sm-12 text-center very-small-margin-top small-margin-bottom">
         <button class="btn-login" ng-click="generateEvents()">Generate Schedule</button>
       </div>
-      <div class="col-sm-12 text-center bottom-container">
+      <div class="col-sm-12 text-center">
         <div class="row" ng-repeat="event in suggestedEventsFormatted">
           <div class="col-sm-3 col-sm-offset-1 text-left">
             <h2>{{event.GroupName}}</h2>
@@ -86,6 +86,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="row text-center" ng-show="noSuggestedEvents">
+      <h2>No Events Matched With Your Schedule!</h2>
+      <h2>Try adding more interests</h2>
     </div>
   </div>
 

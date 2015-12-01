@@ -32,8 +32,12 @@
 
 .very-small-margin-bottom {
   margin-bottom: 1%;
-
+}
 
 .small-margin-bottom {
   margin-bottom: 3%;
+}
+
+.medium-margin-bottom {
+  margin-bottom: 15%;
 }

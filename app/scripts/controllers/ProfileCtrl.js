@@ -23,6 +23,7 @@
       //$scope.eventsReadable = [];
       $scope.suggestedEventsFormatted = [];
       $scope.suggestedEventsRaw = [];
+      $scope.noSuggestedEvents = false;
 
       // ng-model variables
       $scope.formData = {
@@ -275,6 +276,14 @@
             eventsArr[i].ScheduleTimes = ezTimeConverter.weekToDay(eventsArr[i].ScheduleTimes);
             eventsArr[i].ScheduleTimes = ezTimeConverter.dayToReadable(eventsArr[i].ScheduleTimes);
           }
+
+          if(eventsArr.length === 0) {
+            $scope.noSuggestedEvents = true;
+          }
+          else {
+            $scope.noSuggestedEvents = false;
+          }
+
           $scope.suggestedEventsFormatted = eventsArr;
         });
       }
