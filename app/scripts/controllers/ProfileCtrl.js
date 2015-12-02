@@ -10,10 +10,12 @@
   angular.module('EZSched')
     .controller('ProfileCtrl', ProfileCtrl);
 
-    ProfileCtrl.$inject = ['$scope', 'ezUserData', 'ezSQL', 'ezScheduleGenerator', 'ezTimeConverter'];
+    ProfileCtrl.$inject = ['$scope', 'ezUserData', 'ezSQL', 'ezScheduleGenerator',
+      'ezTimeConverter', 'ezInterestSuggestor'];
 
 
-    function ProfileCtrl ($scope, ezUserData, ezSQL, ezScheduleGenerator, ezTimeConverter) {
+    function ProfileCtrl ($scope, ezUserData, ezSQL, ezScheduleGenerator,
+      ezTimeConverter, ezInterestSuggestor) {
       //$scope.userName = ''
       //$scope.alias = '';
       //$scope.userType = '';
@@ -288,6 +290,16 @@
         });
       }
 
+      /**
+       * Gets a suggested interest for the user
+       * @return {string} The suggested interest
+       */
+      function suggestInterest() {
+        ezInterestSuggestor.getSuggestedInterest($scope.userName).then(function(suggestion) {
+          $scope.formData.interest = suggestion;
+        });
+      }
+
       // ====== Scoped Functions ======
       $scope.deleteInterest = deleteInterest;
       $scope.addInterest = addInterest;
@@ -296,6 +308,7 @@
       $scope.deleteEvent = deleteEvent;
       $scope.addEvent = addEvent;
       $scope.generateEvents = generateEvents;
+      $scope.suggestInterest = suggestInterest;
     }
 
 })();
