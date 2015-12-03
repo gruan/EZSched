@@ -161,7 +161,6 @@
      * @return {Array[0]}   Random element of 'arr'.
      */
     function arrRandomElem(arr) {
-      console.log(arr);
       var retVal, randomIndex;
       if(arr.length > 0) {
         randomIndex = Math.floor(Math.random() * arr.length);
