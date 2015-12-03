@@ -75,10 +75,17 @@
         // General Registration
         table = 'Interest';
         attrArr = ['Interest'];
-        valueArr = [$scope.input.interest1];
-        ezSQL.insertQuery(table, attrArr, valueArr);
-        valueArr = [$scope.input.interest2];
-        ezSQL.insertQuery(table, attrArr, valueArr);
+
+        // Do not allow blank interests.
+        if($scope.input.interest1 !== '') {
+          valueArr = [$scope.input.interest1];
+          ezSQL.insertQuery(table, attrArr, valueArr);
+        }
+        // Only Insert second interest into Interest table if it is different from the first
+        if($scope.input.interest2 !== $scope.input.interest1) {
+          valueArr = [$scope.input.interest2];
+          ezSQL.insertQuery(table, attrArr, valueArr);
+        }
 
         // User Specific Registration
         if($scope.input.userType === 'user') {
@@ -99,8 +106,9 @@
           });
         }
 
-        // Only Insert second interest if it is different from the first
+        // Only Insert (UserID, second interest) into Looks table if it is different from the first
         if($scope.input.interest2 !== $scope.input.interest1) {
+          console.log('supsup');
           valueArr = [$scope.input.username, $scope.input.interest2];
           ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
             console.log('2');
