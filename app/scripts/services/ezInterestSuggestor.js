@@ -14,7 +14,8 @@
   function ezInterestSuggestor($q, ezSQL) {
     // ====== Global Variables ======
     var userInterestArr = [],   // [UserID, Interest1, Interest2, ...]
-        otherInterestArrArr = [];  // [[OtherUserID, Interest1, ...], [...], ...]
+        otherInterestArrArr = [],  // [[OtherUserID, Interest1, ...], [...], ...]
+        otherInterestArrArrCopy = [];
 
     var ezInterestSuggestorObj = {
       getSuggestedInterest: function(userID) {
@@ -25,6 +26,7 @@
                   return getAllOtherUsersInterests(userID)
                     .then(function(arrArrOfOtherInterests) {  // Update otherInterestArr
                       otherInterestArrArr = arrArrOfOtherInterests;
+                      otherInterestArrArrCopy = arrArrOfOtherInterests;
 
                       return getMostRelatedInterest();
                   }); // End .then(function(arrOfOtherInterests))
@@ -153,13 +155,25 @@
     }
 
     /**
-     * Chooses a random element from the arr
+     * Chooses a random element from the arr. If arr is empty, choose a random interest
+     * from otherInterestArrArrCopy.
      * @param  {Array} arr Array of elements
      * @return {Array[0]}   Random element of 'arr'.
      */
     function arrRandomElem(arr) {
-      var randomIndex = Math.floor(Math.random() * arr.length);
-      return arr[randomIndex];
+      console.log(arr);
+      var retVal, randomIndex;
+      if(arr.length > 0) {
+        randomIndex = Math.floor(Math.random() * arr.length);
+        retVal = arr[randomIndex];
+      }
+      else {  // arr = [];
+        randomIndex = Math.floor(Math.random() * otherInterestArrArrCopy.length);
+        var interestArr = otherInterestArrArrCopy[randomIndex];
+        randomIndex = Math.floor(Math.random() * (interestArr.length - 1)) + 1;
+        retVal = interestArr[randomIndex];
+      }
+      return retVal;
     }
 
     /**

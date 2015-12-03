@@ -89,16 +89,24 @@
           table = 'Relates';
           attrArr = ['GroupID', 'Interest'];
         }
-        valueArr = [$scope.input.username, $scope.input.interest1];
-        ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
-          console.log('1');
-          console.log(success);
-        });
-        valueArr = [$scope.input.username, $scope.input.interest2];
-        ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
-          console.log('2');
-          console.log(success);
-        });
+
+        // Do not allow blank interests.
+        if($scope.input.interest1 !== '') {
+          valueArr = [$scope.input.username, $scope.input.interest1];
+          ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+            console.log('1');
+            console.log(success);
+          });
+        }
+
+        // Only Insert second interest if it is different from the first
+        if($scope.input.interest2 !== $scope.input.interest1) {
+          valueArr = [$scope.input.username, $scope.input.interest2];
+          ezSQL.insertQuery(table, attrArr, valueArr).then(function(success) {
+            console.log('2');
+            console.log(success);
+          });
+        }
 
 
         ezUserData.setUserName($scope.input.username);
