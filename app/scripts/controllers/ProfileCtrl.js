@@ -31,11 +31,11 @@
       $scope.formData = {
         //interest:
         //course:
-        //event: {
+        event: {
           //name:
           //day:
           //time:
-        //}
+        }
       };
 
       // ===== INITIALIZE ======
@@ -158,6 +158,11 @@
        * in the 'Looks' table
        */
       function addInterest() {
+        // Do nothing if the form is not filled out
+        if(typeof $scope.formData.interest === 'undefined' || $scope.formData.interest === '' ) {
+          return;
+        }
+
         var table, attrArr, valueArr;
         // Insert into the interest table if the interest DNE
         table = 'Interest';
@@ -201,6 +206,11 @@
        * Let a user add a course.
        */
       function addCourse() {
+        // Do nothing if the form is not filled out
+        if(typeof $scope.formData.course === 'undefined' || $scope.formData.course === '' ) {
+          return;
+        }
+
         var table, attrArr, valueArr;
         // Insert into Course table if DNE
         table = 'Course';
@@ -252,6 +262,11 @@
        * @return {void}
        */
       function addEvent() {
+        // Do nothing if the form is not filled out
+        if(typeof $scope.formData.event.name === 'undefined' || $scope.formData.event.name === '' ) {
+          return;
+        }
+
         var table, attrArr, time, valueArr;
         time = $scope.formData.event.day + $scope.formData.event.hour;
 

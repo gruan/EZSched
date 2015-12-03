@@ -72,7 +72,7 @@
 
             // Push on the chars that represent the day.
             var j;
-            for( j = 0; j < day; ++j) {
+            for( j = 0; j < day - 1; ++j) {
               time.push('0');
             }
             time.push('1');
@@ -81,7 +81,7 @@
             }
 
             // Push on the chars that represent the hours of the day.
-            for( j = 0; j < hour; ++j) {
+            for( j = 0; j < hour - 1; ++j) {
                 time.push('0');
             }
             time.push('1');
