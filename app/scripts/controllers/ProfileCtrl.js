@@ -231,8 +231,6 @@
       /**
        * Deletes the specified event from the event table. This will be done from
        * the group 'userType'.
-       * In addition, if there are any 'Person's who 'Attend' the 'eventArg', the
-       * tuple in 'Attend' will be deleted
        * @param  {Event JSON Obj} eventArg Tuple from Event table in database
        * @return {void}
        */
@@ -246,14 +244,6 @@
             'ScheduleTimes=\'' + eventTime + '\'';
         ezSQL.deleteQuery(table, condition).then(function(/* success */) {
           getEvents();
-        });
-
-        // Remove all of the deleted 'events' from the 'Attends' table.
-        table = 'Attends';
-        condition = 'EventName=\'' + eventArg.EventName + '\'+AND+' +
-                    'GroupID=\'' + eventArg.GroupID + '\'+AND+' + 'ScheduleTimes=\'' + eventTime + '\'';
-        ezSQL.deleteQuery(table, condition).then(function(/* success */) {
-          // Do nothing
         });
       }
 
