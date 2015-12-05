@@ -17,7 +17,7 @@
   connection.connect(function(err) {
   if (err) {
     console.error('error connecting: ' + err.stack);
-    return;
+    process.exit();
   }
     console.log('connected as id ' + connection.threadId);
   });
@@ -29,7 +29,10 @@
     console.log(queryData);
     connection.query(queryData.query, function(error){ // To specify query do http.get(?query=<Full query goes here>)
     //connection.query('SELECT * FROM Test', function(err, rows, fields) {
-      if (error) { throw error; }
+      if (error) {
+        throw error;
+        process.exit();
+      }
       res.send(true);
       //console.log(rows[0]);
     });
@@ -39,7 +42,10 @@
     var queryData = url.parse(req.url, true).query;
     console.log(queryData);
     connection.query(queryData.query, function(error, rows, fields) {
-      if (error) { throw error; }
+      if (error) {
+        throw error;
+        process.exit();
+      }
       res.send(rows);
     });
   });
@@ -49,7 +55,10 @@
     console.log(queryData);
     connection.query(queryData.query, function(error, rows, fields){ // To specify query do http.get(?query=<Full query goes here>)
     //connection.query('SELECT * FROM Test', function(err, rows, fields) {
-      if (error) { throw error; }
+      if (error) {
+        throw error;
+        process.exit();
+      }
 
       res.send(true);
     });
@@ -61,6 +70,13 @@
     res.sendFile(__dirname + '/app/index.html');
   });
 
+
+  // RESTART SERVER AFTER 5 MINUTES
+  setTimeout(function() {
+    process.exit();
+  }, 300000);
+
+  // Listen on port 14001
   var port = 14001;
   app.listen(port, function () {
     console.log('Listening on port %d', port);

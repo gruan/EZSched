@@ -24,7 +24,6 @@
        * @return {Promise} A promise which resolves an array of events.
        */
       generateEvents: function(userID) {
-        //TODO
         return ezUserData.getWeeklySchedule(userID).then(function(weeklySchedule) {
           return getInterestingEvents(userID).then(function(interestingEvents) {
             var suggestedEvents = filterConflictingEvents(interestingEvents, weeklySchedule);

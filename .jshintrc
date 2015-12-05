@@ -1,6 +1,6 @@
 {
   "predef": ["angular", "_", "require", "console", "__dirname", "document",
-             "navigator", "window", "$"],
+             "navigator", "window", "$", "process"],
   "camelcase": true,
   "curly": true,
   "eqeqeq": true,
